@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+  <title>Clara — Recette</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#FFFFFF;--nav-h:68px;--radius:14px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:calc(var(--nav-h)+24px);}
+    .page{max-width:480px;margin:0 auto;padding:0 16px;}
+    .hero{background:var(--teal);padding:52px 20px 28px;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.07);}
+    .back-btn{position:absolute;top:16px;left:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;}
+    .hero-emoji{font-size:60px;display:block;margin-bottom:12px;position:relative;z-index:1;}
+    .hero-titre{font-family:'Lora',serif;font-size:22px;font-weight:600;color:white;line-height:1.25;margin-bottom:12px;position:relative;z-index:1;}
+    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
+    .hero-badge{padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:12px;font-weight:500;}
+    .section{background:var(--white);border-radius:var(--radius);padding:20px;margin-bottom:12px;margin-top:12px;}
+    .section-title{font-family:'Lora',serif;font-size:15px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .convives-row{display:flex;align-items:center;gap:12px;}
+    .conv-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--cream);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+    .conv-btn:hover{border-color:var(--teal);background:var(--teal-light);}
+    .conv-num{font-size:18px;font-weight:700;color:var(--teal);min-width:32px;text-align:center;}
+    .conv-label{font-size:13px;color:var(--text-muted);}
+    .ing-list{display:flex;flex-direction:column;gap:8px;}
+    .ing-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--cream);border-radius:10px;}
+    .ing-qty{font-size:13px;font-weight:700;color:var(--teal);min-width:52px;text-align:right;flex-shrink:0;}
+    .ing-unite{font-size:11px;color:var(--text-muted);min-width:30px;flex-shrink:0;}
+    .ing-nom{font-size:13px;color:var(--text);flex:1;}
+    .etape-list{display:flex;flex-direction:column;gap:14px;}
+    .etape-item{display:flex;gap:12px;align-items:flex-start;}
+    .etape-num{width:28px;height:28px;border-radius:50%;background:var(--teal);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .etape-content{flex:1;}
+    .etape-text{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:8px;}
+    .timer-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;background:var(--teal-light);border:1.5px solid rgba(29,158,117,.25);color:var(--teal);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+    .timer-btn:hover{background:var(--teal);color:white;border-color:var(--teal);}
+    .desc-text{font-size:14px;color:var(--text-muted);line-height:1.6;}
+    .mention{background:var(--cream);border-radius:10px;padding:12px 14px;margin-top:12px;margin-bottom:4px;}
+    .mention p{font-size:11px;color:var(--text-muted);line-height:1.5;}
+    .mention strong{color:var(--text);}
+    /* Timer modal */
+    .timer-overlay{position:fixed;inset:0;background:rgba(44,40,32,.6);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+    .timer-overlay.visible{opacity:1;pointer-events:all;}
+    .timer-card{background:var(--white);border-radius:24px 24px 0 0;padding:32px 24px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .35s cubic-bezier(.25,.8,.25,1);}
+    .timer-overlay.visible .timer-card{transform:translateY(0);}
+    .timer-label{font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;}
+    .timer-display{font-family:'Lora',serif;font-size:72px;font-weight:600;color:var(--text);text-align:center;letter-spacing:-2px;margin-bottom:6px;transition:color .3s;}
+    .timer-display.urgent{color:var(--coral);}
+    .timer-step{font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:20px;line-height:1.4;}
+    .timer-progress{height:4px;background:var(--border);border-radius:99px;margin-bottom:24px;overflow:hidden;}
+    .timer-bar{height:100%;background:var(--teal);border-radius:99px;transition:width .9s linear,background .3s;}
+    .timer-controls{display:flex;gap:10px;}
+    .t-btn{flex:1;padding:15px;border-radius:var(--radius);border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;}
+    .t-btn.p{background:var(--teal);color:white;}
+    .t-btn.s{background:var(--cream);color:var(--text);}
+    .t-btn:active{transform:scale(.97);}
+    /* Nav */
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 8px;z-index:100;}
+    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 4px;cursor:pointer;border-radius:10px;transition:all .2s;border:none;background:none;}
+    .nav-icon{font-size:20px;line-height:1;}
+    .nav-label{font-size:10px;font-weight:600;color:var(--text-muted);}
+    .nav-item.active .nav-label{color:var(--teal);}
+    .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:0;}
+    .nav-item.active .nav-dot{opacity:1;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+    .section{animation:fadeUp .3s ease both;}
+  </style>
+</head>
+<body>
+<div class="timer-overlay" id="timerOverlay">
+  <div class="timer-card">
+    <div class="timer-label">Minuteur Clara</div>
+    <div class="timer-display" id="tDisp">00:00</div>
+    <div class="timer-step" id="tStep"></div>
+    <div class="timer-progress"><div class="timer-bar" id="tBar" style="width:100%"></div></div>
+    <div class="timer-controls">
+      <button class="t-btn s" onclick="closeTimer()">✕ Fermer</button>
+      <button class="t-btn p" id="tPauseBtn" onclick="togglePause()">⏸ Pause</button>
+    </div>
+  </div>
+</div>
+<div class="hero" id="heroSection">
+  <button class="back-btn" onclick="history.back()">←</button>
+  <span class="hero-emoji" id="heroEmoji">🍽️</span>
+  <div class="hero-titre" id="heroTitre">…</div>
+  <div class="hero-badges" id="heroBadges"></div>
+</div>
+<div class="page">
+  <div class="section" id="descSection" style="display:none">
+    <div class="section-title">💬 À propos</div>
+    <div class="desc-text" id="descText"></div>
+  </div>
+  <div class="section">
+    <div class="section-title">👥 Convives</div>
+    <div class="convives-row">
+      <button class="conv-btn" onclick="changeConv(-1)">−</button>
+      <div class="conv-num" id="convNum">2</div>
+      <button class="conv-btn" onclick="changeConv(+1)">＋</button>
+      <div class="conv-label">personnes (base&nbsp;: <span id="convBase">4</span>)</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">🛒 Ingrédients</div>
+    <div class="ing-list" id="ingList"></div>
+  </div>
+  <div class="section">
+    <div class="section-title">👨‍🍳 Préparation</div>
+    <div class="etape-list" id="etapeList"></div>
+  </div>
+  <div class="mention">
+    <p><strong>Clara suggère, vous décidez.</strong><br/>[Ensemble] est un service de bien-être destiné à des personnes en bonne santé. Ces informations ne constituent pas un avis médical ou diététique.</p>
+  </div>
+</div>
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="goTo('index.html')"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div><div class="nav-dot"></div></button>
+  <button class="nav-item active"><div class="nav-icon">📅</div><div class="nav-label">Semainier</div><div class="nav-dot"></div></button>
+  <button class="nav-item" onclick="goTo('courses.html')"><div class="nav-icon">🛒</div><div class="nav-label">Courses</div><div class="nav-dot"></div></button>
+  <button class="nav-item" onclick="goTo('profil.html')"><div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-dot"></div></button>
+</nav>
+<script>
+let recette=null,nbP=2,baseP=4,timerIv=null,timerTotal=0,timerRem=0,paused=false;
+function goTo(u){window.location.href=u;}
+function init(){
+  try{
+    const raw=sessionStorage.getItem('clara_recette_courante');
+    if(!raw){history.back();return;}
+    recette=JSON.parse(raw);
+    nbP=parseInt(sessionStorage.getItem('clara_nb_personnes'))||2;
+    baseP=recette.personnes||4;
+    document.getElementById('convNum').textContent=nbP;
+    document.getElementById('convBase').textContent=baseP;
+    renderHero();renderDesc();renderIng();renderEtapes();
+  }catch(e){history.back();}
+}
+function renderHero(){
+  const t=recette.tags||{},m=recette.metrics||{};
+  document.title='Clara — '+recette.titre;
+  document.getElementById('heroEmoji').textContent=recette.ux?.emoji||'🍽️';
+  document.getElementById('heroTitre').textContent=recette.titre;
+  const b=[];
+  if(m.total_time)b.push('⏱ '+m.total_time+' min');
+  if(t.budget)b.push(t.budget);
+  if(t.difficulte)b.push(t.difficulte);
+  const s=t.saison||[];
+  if(s.length&&!s.includes('Toutes'))b.push(s.filter(x=>!x.includes('Déjeuner')).join(' · ')||'');
+  document.getElementById('heroBadges').innerHTML=b.filter(Boolean).map(x=>'<span class="hero-badge">'+x+'</span>').join('');
+}
+function renderDesc(){
+  if(!recette.description)return;
+  document.getElementById('descSection').style.display='block';
+  document.getElementById('descText').textContent=recette.description;
+}
+function changeConv(d){nbP=Math.max(1,Math.min(20,nbP+d));document.getElementById('convNum').textContent=nbP;renderIng();}
+function renderIng(){
+  const ings=recette.ingredients||[];
+  const ratio=nbP/baseP;
+  document.getElementById('ingList').innerHTML=ings.map(ing=>{
+    const q=ing.quantite*ratio;
+    const qs=q===0?'':(q%1===0?q.toFixed(0):(q<0.1?q.toFixed(2):parseFloat(q.toFixed(1)).toString()));
+    return'<div class="ing-item"><div class="ing-qty">'+qs+'</div><div class="ing-unite">'+(ing.unite||'')+'</div><div class="ing-nom">'+hesc(ing.nom)+'</div></div>';
+  }).join('')||'<p style="color:var(--text-muted);font-size:13px">Non renseignés.</p>';
+}
+function renderEtapes(){
+  const etapes=recette.etapes||[];
+  document.getElementById('etapeList').innerHTML=etapes.map((e,i)=>{
+    const tb=e.timer_secondes>0?'<button class="timer-btn" onclick="startTimer('+e.timer_secondes+',\''+jesc(e.instruction.substring(0,55))+'…\')">⏱ '+fmt(e.timer_secondes)+'</button>':'';
+    return'<div class="etape-item"><div class="etape-num">'+(i+1)+'</div><div class="etape-content"><div class="etape-text">'+hesc(e.instruction)+'</div>'+tb+'</div></div>';
+  }).join('')||'<p style="color:var(--text-muted);font-size:13px">Non renseignées.</p>';
+}
+function startTimer(sec,label){
+  if(timerIv)clearInterval(timerIv);
+  timerTotal=sec;timerRem=sec;paused=false;
+  document.getElementById('tStep').textContent=label;
+  document.getElementById('tPauseBtn').textContent='⏸ Pause';
+  document.getElementById('tPauseBtn').onclick=togglePause;
+  updTimer();
+  document.getElementById('timerOverlay').classList.add('visible');
+  timerIv=setInterval(tick,1000);
+}
+function tick(){
+  if(paused)return;
+  timerRem--;
+  updTimer();
+  if(timerRem<=0){
+    clearInterval(timerIv);timerIv=null;
+    document.getElementById('tDisp').textContent='✓ Terminé !';
+    document.getElementById('tBar').style.width='0%';
+    document.getElementById('tDisp').classList.remove('urgent');
+    if(navigator.vibrate)navigator.vibrate([300,100,300]);
+    document.getElementById('tPauseBtn').textContent='✓ OK';
+    document.getElementById('tPauseBtn').onclick=closeTimer;
+  }
+}
+function updTimer(){
+  const d=document.getElementById('tDisp');
+  d.textContent=fmt(timerRem);
+  d.classList.toggle('urgent',timerRem<=30&&timerRem>0);
+  const pct=(timerRem/timerTotal)*100;
+  const bar=document.getElementById('tBar');
+  bar.style.width=pct+'%';
+  bar.style.background=timerRem<=30?'var(--coral)':'var(--teal)';
+}
+function togglePause(){paused=!paused;document.getElementById('tPauseBtn').textContent=paused?'▶ Reprendre':'⏸ Pause';}
+function closeTimer(){if(timerIv){clearInterval(timerIv);timerIv=null;}document.getElementById('timerOverlay').classList.remove('visible');}
+function fmt(s){const m=Math.floor(Math.abs(s)/60),r=Math.abs(s)%60;return String(m).padStart(2,'0')+':'+String(r).padStart(2,'0');}
+function hesc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function jesc(s){return String(s).replace(/'/g,"\\'").replace(/\n/g,' ');}
+document.getElementById('timerOverlay').addEventListener('click',function(e){if(e.target===this)closeTimer();});
+init();
+</script>
+</body>
+</html>

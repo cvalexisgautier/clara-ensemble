@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+  <title>Clara — Courses</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#FFFFFF;--nav-h:68px;--radius:14px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:calc(var(--nav-h)+24px);}
+    .page{max-width:480px;margin:0 auto;padding:0 16px;}
+    .header{padding:20px 0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--cream);z-index:10;}
+    .header-title{font-family:'Lora',serif;font-size:22px;font-weight:600;color:var(--text);}
+    .header-sub{font-size:12px;color:var(--text-muted);margin-top:2px;}
+    .copy-btn{padding:10px 18px;border-radius:99px;background:var(--teal);color:white;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;}
+    .copy-btn:hover{background:var(--teal-dark);}
+    .copy-btn:active{transform:scale(.96);}
+    .empty-state{text-align:center;padding:60px 20px;}
+    .empty-emoji{font-size:48px;margin-bottom:12px;}
+    .empty-title{font-family:'Lora',serif;font-size:18px;color:var(--text);margin-bottom:8px;}
+    .empty-sub{font-size:13px;color:var(--text-muted);line-height:1.5;}
+    .go-btn{margin-top:20px;display:inline-block;padding:12px 24px;background:var(--teal);color:white;border-radius:99px;font-weight:600;font-size:14px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
+    .prog-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+    .prog-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden;}
+    .prog-bar{height:100%;background:var(--teal);border-radius:99px;transition:width .4s ease;}
+    .prog-label{font-size:12px;color:var(--text-muted);white-space:nowrap;}
+    .ing-item{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--white);border-radius:var(--radius);margin-bottom:8px;cursor:pointer;transition:all .2s;border:1.5px solid var(--border);}
+    .ing-item.checked{opacity:.5;}
+    .ing-item.checked .ing-nom{text-decoration:line-through;}
+    .checkbox{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+    .ing-item.checked .checkbox{background:var(--teal);border-color:var(--teal);}
+    .check-icon{color:white;font-size:13px;font-weight:700;display:none;}
+    .ing-item.checked .check-icon{display:block;}
+    .ing-info{flex:1;}
+    .ing-nom{font-size:14px;font-weight:500;color:var(--text);}
+    .ing-qty{font-size:12px;color:var(--text-muted);margin-top:2px;}
+    .reset-btn{width:100%;padding:14px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--white);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin-top:4px;transition:all .2s;}
+    .reset-btn:hover{border-color:var(--coral);color:var(--coral);}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 8px;z-index:100;}
+    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 4px;cursor:pointer;border-radius:10px;transition:all .2s;border:none;background:none;}
+    .nav-icon{font-size:20px;line-height:1;}
+    .nav-label{font-size:10px;font-weight:600;color:var(--text-muted);}
+    .nav-item.active .nav-label{color:var(--teal);}
+    .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:0;}
+    .nav-item.active .nav-dot{opacity:1;}
+    .toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:var(--white);padding:10px 18px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap;z-index:300;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .toast.success{background:var(--teal);}
+  </style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="page">
+  <div class="header">
+    <div>
+      <div class="header-title">🛒 Courses</div>
+      <div class="header-sub" id="headerSub">Chargement…</div>
+    </div>
+    <button class="copy-btn" onclick="copierListe()">📋 Copier</button>
+  </div>
+  <div id="mainContent"></div>
+</div>
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="goTo('index.html')"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div><div class="nav-dot"></div></button>
+  <button class="nav-item" onclick="goTo('semainier.html')"><div class="nav-icon">📅</div><div class="nav-label">Semainier</div><div class="nav-dot"></div></button>
+  <button class="nav-item active"><div class="nav-icon">🛒</div><div class="nav-label">Courses</div><div class="nav-dot"></div></button>
+  <button class="nav-item" onclick="goTo('profil.html')"><div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-dot"></div></button>
+</nav>
+<script>
+const SUPABASE_URL='https://vquwacvjfpolqtyxydqw.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxdXdhY3ZqZnBvbHF0eXh5ZHF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTk5NTEsImV4cCI6MjA5MjI5NTk1MX0.-Nqkk96nby_SObo_Vrq-OSiD0zXnke42IbiVtVbyOP4';
+
+let items=[];// [{nom, quantite, unite, checked}]
+let checkedState={};
+
+function goTo(u){window.location.href=u;}
+function getUserId(){return localStorage.getItem('clara_user_id')||'anon';}
+function getWeekId(){const n=new Date(),d=n.getDay(),l=new Date(n);l.setDate(n.getDate()-d+(d===0?-6:1));return l.toISOString().slice(0,10);}
+
+async function init(){
+  // Charger planning du localStorage
+  const sem=getWeekId();
+  const raw=localStorage.getItem('clara_planning_'+sem);
+  if(!raw){renderEmpty();return;}
+  let planning;
+  try{planning=JSON.parse(raw);}catch(e){renderEmpty();return;}
+
+  // Agréger les ingrédients
+  const profRaw=localStorage.getItem('clara_profile');
+  const profil=profRaw?JSON.parse(profRaw):{nb_personnes:2};
+  const nbP=profil.nb_personnes||2;
+
+  const map={};
+  for(const jour of Object.values(planning)){
+    for(const recette of Object.values(jour)){
+      if(!recette||!recette.ingredients)continue;
+      const baseP=recette.personnes||4;
+      const ratio=nbP/baseP;
+      for(const ing of recette.ingredients){
+        const key=ing.nom.toLowerCase().trim();
+        if(!map[key]){map[key]={nom:ing.nom,quantite:0,unite:ing.unite||'',count:0};}
+        map[key].quantite+=ing.quantite*ratio;
+        map[key].count++;
+      }
+    }
+  }
+
+  items=Object.values(map).sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+
+  // Charger état checked depuis localStorage
+  const savedChecked=localStorage.getItem('clara_courses_checked_'+sem);
+  if(savedChecked)checkedState=JSON.parse(savedChecked);
+
+  document.getElementById('headerSub').textContent=`Semaine du ${getWeekLabel()} · ${items.length} articles`;
+  renderListe();
+  await sauvegarderSupabase();
+}
+
+function renderEmpty(){
+  document.getElementById('headerSub').textContent='Aucune semaine sauvegardée';
+  document.getElementById('mainContent').innerHTML=`
+    <div class="empty-state">
+      <div class="empty-emoji">🛒</div>
+      <div class="empty-title">Pas encore de liste</div>
+      <div class="empty-sub">Générez votre semainier et sauvegardez-le pour voir votre liste de courses apparaître ici.</div>
+      <button class="go-btn" onclick="goTo('semainier.html')">→ Aller au semainier</button>
+    </div>`;
+}
+
+function renderListe(){
+  const sem=getWeekId();
+  const checked=items.filter(i=>checkedState[i.nom]).length;
+  const total=items.length;
+  const pct=total>0?Math.round((checked/total)*100):0;
+  let html=`<div class="prog-row">
+    <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
+    <div class="prog-label">${checked}/${total}</div>
+  </div>`;
+  html+=items.map((item,i)=>{
+    const isChecked=!!checkedState[item.nom];
+    const q=item.quantite;
+    const qs=q===0?'':(q%1===0?q.toFixed(0):(q<0.1?q.toFixed(2):parseFloat(q.toFixed(1)).toString()));
+    const qstr=qs?(qs+(item.unite?' '+item.unite:'')):'';
+    return`<div class="ing-item${isChecked?' checked':''}" onclick="toggleItem(${i})">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="ing-info">
+        <div class="ing-nom">${hesc(item.nom)}</div>
+        ${qstr?'<div class="ing-qty">'+hesc(qstr)+'</div>':''}
+      </div>
+    </div>`;
+  }).join('');
+  html+=`<button class="reset-btn" onclick="resetChecked()">↺ Réinitialiser les cases</button>`;
+  document.getElementById('mainContent').innerHTML=html;
+}
+
+function toggleItem(i){
+  const nom=items[i].nom;
+  checkedState[nom]=!checkedState[nom];
+  const sem=getWeekId();
+  localStorage.setItem('clara_courses_checked_'+sem,JSON.stringify(checkedState));
+  renderListe();
+}
+
+function resetChecked(){
+  checkedState={};
+  const sem=getWeekId();
+  localStorage.setItem('clara_courses_checked_'+sem,'{}');
+  renderListe();
+}
+
+function copierListe(){
+  const sem=getWeekId();
+  let txt='LISTE DE COURSES — Clara [Ensemble]\n══════════════════════════════\n';
+  for(const item of items){
+    const q=item.quantite;
+    const qs=q===0?'':(q%1===0?q.toFixed(0):(q<0.1?q.toFixed(2):parseFloat(q.toFixed(1)).toString()));
+    const qstr=qs?(qs+(item.unite?' '+item.unite:'')):'';
+    const check=checkedState[item.nom]?'☑':'☐';
+    txt+=`${check}  ${item.nom}${qstr?' — '+qstr:''}\n`;
+  }
+  navigator.clipboard.writeText(txt).then(()=>showToast('Liste copiée ! 📋','success')).catch(()=>showToast('Erreur de copie'));
+}
+
+async function sauvegarderSupabase(){
+  try{
+    const uid=getUserId(),sem=getWeekId();
+    const rows=items.map(it=>({user_id:uid,semaine:sem,ingredient:it.nom,quantite:parseFloat(it.quantite.toFixed(2)),unite:it.unite,checked:!!checkedState[it.nom]}));
+    // Delete old
+    await fetch(`${SUPABASE_URL}/rest/v1/courses?user_id=eq.${encodeURIComponent(uid)}&semaine=eq.${sem}`,{method:'DELETE',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY}});
+    // Insert new
+    await fetch(`${SUPABASE_URL}/rest/v1/courses`,{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(rows)});
+  }catch(e){console.warn('Supabase courses:',e);}
+}
+
+function getWeekLabel(){const n=new Date(),d=n.getDay(),l=new Date(n);l.setDate(n.getDate()-d+(d===0?-6:1));return l.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});}
+function hesc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+let tt;function showToast(m,t=''){const e=document.getElementById('toast');e.textContent=m;e.className='toast show'+(t?' '+t:'');clearTimeout(tt);tt=setTimeout(()=>e.className='toast',2800);}
+init();
+</script>
+</body>
+</html>
