@@ -1,348 +1,234 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
-  <title>Clara — Courses</title>
-  <script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;type=content-script&amp;dmn=api.netlify.com&amp;url=https%3A%2F%2Fapi.netlify.com%2Fapi%2Fv1%2Fdeploys%2F69e74ec219d4250008911cdd%2Ffiles%2Fcourses.html&amp;app=chrome.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-dnt"></script><script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    :root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--coral-light:#FDF0EB;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#fff;--nav-h:68px;--radius:14px;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:calc(var(--nav-h)+24px);}
-    .page{max-width:480px;margin:0 auto;padding:0 16px;}
-    .header{padding:20px 0 16px;display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;background:var(--cream);z-index:10;}
-    .header-title{font-family:'Lora',serif;font-size:22px;font-weight:600;color:var(--text);}
-    .header-sub{font-size:12px;color:var(--text-muted);margin-top:2px;}
-    .copy-btn{padding:10px 16px;border-radius:99px;background:var(--teal);color:white;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
-    .copy-btn:hover{background:var(--teal-dark);}
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>Clara — Courses</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#FFFFFF;--r:20px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:100px;}
 
-    /* Filtre tabs */
-    .filter-tabs{display:flex;gap:8px;margin-bottom:14px;}
-    .filter-tab{padding:8px 16px;border-radius:99px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .2s;}
-    .filter-tab.active{background:var(--teal);border-color:var(--teal);color:white;}
+/* TOP */
+.topbar{background:var(--teal);padding:52px 20px 24px;position:relative;overflow:hidden;}
+.topbar::after{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07);}
+.topbar-title{font-family:'Lora',serif;font-size:24px;font-weight:600;color:white;position:relative;z-index:1;}
+.topbar-sub{font-size:13px;color:rgba(255,255,255,.75);margin-top:4px;position:relative;z-index:1;}
+.topbar-actions{position:absolute;top:16px;right:16px;display:flex;gap:8px;z-index:2;}
+.icon-btn{width:38px;height:38px;border-radius:99px;background:rgba(255,255,255,.15);border:none;color:white;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 
-    /* Inventaire banner */
-    .inv-banner{background:var(--teal-light);border:1.5px solid rgba(29,158,117,.2);border-radius:var(--radius);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s;}
-    .inv-banner:hover{border-color:var(--teal);}
-    .inv-banner-icon{font-size:20px;}
-    .inv-banner-text{flex:1;}
-    .inv-banner-title{font-size:13px;font-weight:600;color:var(--teal-dark);}
-    .inv-banner-sub{font-size:11px;color:var(--text-muted);margin-top:1px;}
-    .inv-banner-count{font-family:'Lora',serif;font-size:18px;font-weight:600;color:var(--teal);}
+/* FILTER TABS */
+.tabs{display:flex;gap:0;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;}
+.tab{flex:1;padding:14px 8px;text-align:center;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.tab.active{color:var(--teal);border-bottom-color:var(--teal);}
 
-    /* Progress */
-    .prog-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-    .prog-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden;}
-    .prog-bar{height:100%;background:var(--teal);border-radius:99px;transition:width .4s ease;}
-    .prog-label{font-size:12px;color:var(--text-muted);white-space:nowrap;}
+/* STOCK BANNER */
+.banner{margin:16px 20px 0;background:var(--teal-light);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:1.5px solid rgba(29,158,117,.15);}
+.banner-icon{font-size:24px;}
+.banner-count{font-size:18px;font-weight:700;color:var(--teal);display:block;}
+.banner-sub{font-size:11px;color:var(--text-muted);}
 
-    /* Items */
-    .section-header{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin:12px 0 8px 4px;}
-    .ing-item{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--white);border-radius:var(--radius);margin-bottom:8px;cursor:pointer;transition:all .2s;border:1.5px solid var(--border);}
-    .ing-item:hover{border-color:var(--teal);}
-    .ing-item.checked{opacity:.5;}
-    .ing-item.checked .ing-nom{text-decoration:line-through;}
-    .ing-item.en-stock{background:var(--teal-light);border-color:rgba(29,158,117,.2);opacity:.7;cursor:default;}
-    .checkbox{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-    .ing-item.checked .checkbox{background:var(--teal);border-color:var(--teal);}
-    .ing-item.en-stock .checkbox{background:var(--teal);border-color:var(--teal);}
-    .check-icon{color:white;font-size:12px;font-weight:700;display:none;}
-    .ing-item.checked .check-icon,.ing-item.en-stock .check-icon{display:block;}
-    .ing-info{flex:1;}
-    .ing-nom{font-size:14px;font-weight:500;color:var(--text);}
-    .ing-qty{font-size:12px;color:var(--text-muted);margin-top:2px;}
-    .stock-badge{font-size:11px;background:var(--teal-light);color:var(--teal);padding:2px 8px;border-radius:99px;font-weight:600;margin-left:6px;}
-    .manque-badge{font-size:11px;background:var(--coral-light);color:var(--coral);padding:2px 8px;border-radius:99px;font-weight:600;margin-left:6px;}
+/* PROGRESS */
+.prog-wrap{margin:14px 20px 0;}
+.prog-bar-bg{height:6px;background:var(--border);border-radius:99px;overflow:hidden;}
+.prog-bar-fill{height:100%;background:var(--teal);border-radius:99px;transition:width .4s ease;}
+.prog-label{font-size:12px;color:var(--text-muted);margin-top:6px;text-align:right;}
 
-    .reset-btn{width:100%;padding:13px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--white);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-top:4px;transition:all .2s;}
-    .reset-btn:hover{border-color:var(--coral);color:var(--coral);}
+/* SECTION */
+.sec-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);padding:16px 20px 8px;}
 
-    .empty-state{text-align:center;padding:60px 20px;}
-    .empty-emoji{font-size:48px;margin-bottom:12px;}
-    .empty-title{font-family:'Lora',serif;font-size:18px;margin-bottom:8px;}
-    .empty-sub{font-size:13px;color:var(--text-muted);line-height:1.5;}
-    .go-btn{margin-top:20px;display:inline-block;padding:12px 24px;background:var(--teal);color:white;border-radius:99px;font-weight:600;font-size:14px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
+/* ITEM CARDS */
+.items-list{padding:0 20px;display:flex;flex-direction:column;gap:8px;}
+.ing-card{background:var(--white);border-radius:16px;display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;transition:all .2s;border:2px solid transparent;box-shadow:0 2px 8px rgba(44,40,32,.05);}
+.ing-card:hover{border-color:var(--teal);}
+.ing-card.checked{opacity:.5;background:var(--cream);}
+.ing-card.en-stock{background:var(--teal-light);opacity:.75;}
+.checkbox{width:24px;height:24px;border-radius:99px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.ing-card.checked .checkbox,.ing-card.en-stock .checkbox{background:var(--teal);border-color:var(--teal);}
+.check-icon{font-size:12px;color:white;display:none;}
+.ing-card.checked .check-icon,.ing-card.en-stock .check-icon{display:block;}
+.ing-info{flex:1;}
+.ing-nom{font-size:14px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.ing-card.checked .ing-nom{text-decoration:line-through;color:var(--text-muted);}
+.ing-qty-label{font-size:12px;color:var(--text-muted);}
+.manque-badge{background:var(--coral);color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;margin-left:6px;}
+.stock-badge{background:var(--teal);color:white;font-size:10px;font-weight:600;padding:2px 7px;border-radius:99px;margin-left:6px;}
 
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 4px;z-index:100;}
-    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px;cursor:pointer;border-radius:10px;transition:all .2s;border:none;background:none;}
-    .nav-icon{font-size:19px;line-height:1;}
-    .nav-label{font-size:9px;font-weight:600;color:var(--text-muted);}
-    .nav-item.active .nav-label{color:var(--teal);}
-    .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:0;}
-    .nav-item.active .nav-dot{opacity:1;}
+/* EMPTY */
+.empty{text-align:center;padding:60px 20px;}
+.empty-icon{font-size:56px;margin-bottom:12px;}
+.empty-title{font-family:'Lora',serif;font-size:20px;font-weight:600;margin-bottom:8px;}
+.empty-sub{font-size:13px;color:var(--text-muted);line-height:1.55;margin-bottom:20px;}
+.go-btn{display:inline-block;padding:13px 28px;background:var(--teal);color:white;border-radius:99px;font-weight:600;font-size:14px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
 
-    .toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:var(--white);padding:10px 18px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;z-index:300;}
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-    .toast.success{background:var(--teal);}
-  </style>
+/* RESET */
+.reset-row{padding:16px 20px;text-align:center;}
+.reset-btn{background:none;border:1.5px solid var(--border);padding:9px 20px;border-radius:99px;font-size:13px;color:var(--text-muted);cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+/* NAV */
+.fnav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-radius:99px;padding:10px 8px;display:flex;gap:2px;box-shadow:0 8px 40px rgba(44,40,32,.20);z-index:100;border:1px solid rgba(229,221,213,.5);}
+.fnb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 14px;border:none;border-radius:99px;background:transparent;cursor:pointer;transition:all .2s;min-width:52px;}
+.fi{font-size:20px;line-height:1;}
+.fl{font-size:9px;font-weight:600;color:var(--text-muted);}
+.fnb.active{background:var(--teal);}
+.fnb.active .fl{color:rgba(255,255,255,.9);}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--text);color:var(--white);padding:10px 20px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;z-index:300;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{background:var(--teal);}
+</style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
-<div class="page">
-  <div class="header">
-    <div>
-      <div class="header-title">🛒 Courses</div>
-      <div class="header-sub" id="headerSub">Chargement…</div>
-    </div>
-    <button class="copy-btn" onclick="copierListe()">📋 Copier</button>
-  </div>
 
-  <!-- Filtre -->
-  <div class="filter-tabs">
-    <div class="filter-tab active" id="tabTout" onclick="setFilter('tout')">Tout</div>
-    <div class="filter-tab" id="tabAcheter" onclick="setFilter('acheter')">À acheter</div>
-    <div class="filter-tab" id="tabStock" onclick="setFilter('stock')">En stock</div>
+<div class="topbar">
+  <div class="topbar-actions">
+    <button class="icon-btn" onclick="copierListe()" title="Copier">📋</button>
   </div>
-
-  <!-- Banner inventaire -->
-  <div class="inv-banner" id="invBanner" onclick="goTo('inventaire.html')">
-    <div class="inv-banner-icon">📦</div>
-    <div class="inv-banner-text">
-      <div class="inv-banner-title">Inventaire actif</div>
-      <div class="inv-banner-sub" id="invBannerSub">Chargement…</div>
-    </div>
-    <div class="inv-banner-count" id="invBannerCount">—</div>
-  </div>
-
-  <div id="mainContent"></div>
+  <div class="topbar-title">🛒 Courses</div>
+  <div class="topbar-sub" id="topbarSub">Semaine en cours</div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-item" onclick="goTo('index.html')"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('semainier.html')"><div class="nav-icon">📅</div><div class="nav-label">Semainier</div><div class="nav-dot"></div></button>
-  <button class="nav-item active"><div class="nav-icon">🛒</div><div class="nav-label">Courses</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('inventaire.html')"><div class="nav-icon">📦</div><div class="nav-label">Inventaire</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('profil.html')"><div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-dot"></div></button>
+<div class="tabs">
+  <button class="tab active" id="tabTout" onclick="setFilter('tout')">Tout</button>
+  <button class="tab" id="tabAcheter" onclick="setFilter('acheter')">À acheter</button>
+  <button class="tab" id="tabStock" onclick="setFilter('stock')">En stock</button>
+</div>
+
+<div class="banner" id="invBanner">
+  <div class="banner-icon">📦</div>
+  <div><span class="banner-count" id="invBannerCount">—</span><span class="banner-sub" id="invBannerSub">Chargement…</span></div>
+</div>
+
+<div class="prog-wrap" id="progWrap"></div>
+<div id="mainContent"></div>
+
+<nav class="fnav">
+  <button class="fnb" onclick="goTo('semainier.html')"><div class="fi">📅</div><div class="fl">Semaine</div></button>
+  <button class="fnb" onclick="goTo('livre.html')"><div class="fi">📖</div><div class="fl">Recettes</div></button>
+  <button class="fnb active" onclick="goTo('courses.html')"><div class="fi">🛒</div><div class="fl">Courses</div></button>
+  <button class="fnb" onclick="goTo('inventaire.html')"><div class="fi">📦</div><div class="fl">Stock</div></button>
+  <button class="fnb" onclick="goTo('profil.html')"><div class="fi">👤</div><div class="fl">Profil</div></button>
 </nav>
 
 <script>
 const SUPABASE_URL='https://vquwacvjfpolqtyxydqw.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxdXdhY3ZqZnBvbHF0eXh5ZHF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTk5NTEsImV4cCI6MjA5MjI5NTk1MX0.-Nqkk96nby_SObo_Vrq-OSiD0zXnke42IbiVtVbyOP4';
-
-let allItems = []; // [{nom, needed_qty, needed_unite, stock_qty, stock_unite, enStock, partiel, manque}]
-let checkedState = {};
-let inventaire = {};
-let currentFilter = 'tout';
-
+let allItems=[],checkedState={},inventaire={},currentFilter='tout';
 function goTo(u){window.location.href=u;}
 function getUserId(){return localStorage.getItem('clara_user_id')||'anon';}
 function getWeekId(){const n=new Date(),d=n.getDay(),l=new Date(n);l.setDate(n.getDate()-d+(d===0?-6:1));return l.toISOString().slice(0,10);}
+function getWeekLabel(){const n=new Date(),d=n.getDay(),l=new Date(n);l.setDate(n.getDate()-d+(d===0?-6:1));return l.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});}
 
-// ── CHARGEMENT INVENTAIRE ──
 async function chargerInventaire(){
-  const cached = localStorage.getItem('clara_inventaire_'+getUserId());
-  if(cached){ try{ inventaire = JSON.parse(cached); } catch(e){} }
-  try{
-    const uid = getUserId();
-    const data = await fetch(`${SUPABASE_URL}/rest/v1/inventaire?user_id=eq.${encodeURIComponent(uid)}&select=*`, {
-      headers:{apikey:SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
-    });
-    if(data.ok){
-      const rows = await data.json();
-      if(rows.length){
-        inventaire = {};
-        rows.forEach(r=>{ inventaire[r.ingredient.toLowerCase()]={nom:r.ingredient,quantite:r.quantite,unite:r.unite||''}; });
-        localStorage.setItem('clara_inventaire_'+getUserId(), JSON.stringify(inventaire));
-      }
-    }
-  }catch(e){console.warn('inventaire fetch:',e);}
+  const c=localStorage.getItem('clara_inventaire_'+getUserId());if(c)try{inventaire=JSON.parse(c);}catch(e){}
+  try{const uid=getUserId();const r=await fetch(`${SUPABASE_URL}/rest/v1/inventaire?user_id=eq.${encodeURIComponent(uid)}&select=*`,{headers:{apikey:SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});if(r.ok){const rows=await r.json();if(rows.length){inventaire={};rows.forEach(r=>{inventaire[r.ingredient.toLowerCase()]={nom:r.ingredient,quantite:r.quantite,unite:r.unite||''};});localStorage.setItem('clara_inventaire_'+getUserId(),JSON.stringify(inventaire));}}}catch(e){}
 }
 
-// ── BUILD LISTE ──
 function buildListe(){
-  const sem = getWeekId();
-  const raw = localStorage.getItem('clara_planning_'+sem);
-  if(!raw) return [];
-  let planning; try{planning=JSON.parse(raw);}catch(e){return [];}
-  const profRaw = localStorage.getItem('clara_profile');
-  const profil = profRaw ? JSON.parse(profRaw) : {nb_personnes:2};
-  const nbP = profil.nb_personnes||2;
-
-  const map = {};
-  for(const jour of Object.values(planning)){
-    for(const recette of Object.values(jour)){
-      if(!recette?.ingredients)continue;
-      const ratio = nbP/(recette.personnes||4);
-      for(const ing of recette.ingredients){
-        const key = ing.nom.toLowerCase().trim();
-        if(!map[key]) map[key]={nom:ing.nom, quantite:0, unite:ing.unite||''};
-        map[key].quantite += ing.quantite*ratio;
-      }
-    }
+  const sem=getWeekId(),raw=localStorage.getItem('clara_planning_'+sem);
+  if(!raw)return[];
+  let planning;try{planning=JSON.parse(raw);}catch(e){return[];}
+  const profRaw=localStorage.getItem('clara_profile'),profil=profRaw?JSON.parse(profRaw):{nb_personnes:2};
+  const nbP=profil.nb_personnes||2,map={};
+  for(const jour of Object.values(planning))for(const recette of Object.values(jour)){
+    if(!recette?.ingredients)continue;
+    const ratio=nbP/(recette.personnes||4);
+    for(const ing of recette.ingredients){const key=ing.nom.toLowerCase().trim();if(!map[key])map[key]={nom:ing.nom,quantite:0,unite:ing.unite||''};map[key].quantite+=ing.quantite*ratio;}
   }
-
   return Object.values(map).sort((a,b)=>a.nom.localeCompare(b.nom,'fr')).map(item=>{
-    const key = item.nom.toLowerCase();
-    const stock = inventaire[key];
-    const needed = item.quantite;
-    const stockQty = stock?.quantite||0;
-
-    let enStock = false, partiel = false, manque = needed;
-
-    if(stock && stockQty > 0){
-      if(stockQty >= needed - 0.001){ enStock = true; manque = 0; }
-      else { partiel = true; manque = needed - stockQty; }
-    }
-
-    return {...item, needed_qty:needed, stock_qty:stockQty, stock_unite:stock?.unite||'', enStock, partiel, manque};
+    const key=item.nom.toLowerCase(),stock=inventaire[key],needed=item.quantite,stockQty=stock?.quantite||0;
+    let enStock=false,partiel=false,manque=needed;
+    if(stock&&stockQty>0){if(stockQty>=needed-0.001){enStock=true;manque=0;}else{partiel=true;manque=needed-stockQty;}}
+    return{...item,needed_qty:needed,stock_qty:stockQty,stock_unite:stock?.unite||'',enStock,partiel,manque};
   });
 }
 
-// ── FILTRE ──
 function setFilter(f){
-  currentFilter = f;
-  ['tout','acheter','stock'].forEach(id=>{
-    document.getElementById('tab'+id.charAt(0).toUpperCase()+id.slice(1)).classList.toggle('active', id===f);
-  });
+  currentFilter=f;
+  ['tout','acheter','stock'].forEach(id=>{document.getElementById('tab'+id.charAt(0).toUpperCase()+id.slice(1)).classList.toggle('active',id===f);});
   renderListe();
 }
 
-// ── RENDU ──
 function renderInventaireBanner(){
-  const total = Object.keys(inventaire).length;
-  const enStock = allItems.filter(i=>i.enStock).length;
-  document.getElementById('invBannerCount').textContent = enStock+' éco.';
-  document.getElementById('invBannerSub').textContent = total
-    ? `${total} articles en stock · ${enStock} économisés cette semaine`
-    : 'Ajoutez votre stock pour déduire les courses';
+  const total=Object.keys(inventaire).length,enStock=allItems.filter(i=>i.enStock).length;
+  document.getElementById('invBannerCount').textContent=enStock+' en stock';
+  document.getElementById('invBannerSub').textContent=total?`${total} articles · ${enStock} économisés cette semaine`:'Ajoutez votre stock pour déduire les courses';
 }
 
 function renderListe(){
-  const sem = getWeekId();
-  const filtered = allItems.filter(item=>{
-    if(currentFilter==='acheter') return !item.enStock;
-    if(currentFilter==='stock') return item.enStock;
-    return true;
-  });
+  const filtered=allItems.filter(item=>{if(currentFilter==='acheter')return!item.enStock;if(currentFilter==='stock')return item.enStock;return true;});
+  const aAcheter=filtered.filter(i=>!i.enStock),enStockList=filtered.filter(i=>i.enStock);
+  const checked=aAcheter.filter(i=>checkedState[i.nom]).length,totalA=aAcheter.length;
 
-  const aAcheter = filtered.filter(i=>!i.enStock);
-  const enStockList = filtered.filter(i=>i.enStock);
-  const checked = aAcheter.filter(i=>checkedState[i.nom]).length;
-  const totalAcheter = aAcheter.length;
+  // Progress
+  const pw=document.getElementById('progWrap');
+  if(totalA>0){const pct=Math.round((checked/totalA)*100);pw.innerHTML=`<div class="prog-bar-bg"><div class="prog-bar-fill" style="width:${pct}%"></div></div><div class="prog-label">${checked}/${totalA} cochés</div>`;}
+  else pw.innerHTML='';
 
-  document.getElementById('headerSub').textContent = `Semaine du ${getWeekLabel()} · ${totalAcheter} à acheter`;
-
-  let html = '';
-
-  // Progress bar (seulement sur les articles à acheter)
-  if(totalAcheter > 0){
-    const pct = Math.round((checked/totalAcheter)*100);
-    html += `<div class="prog-row">
-      <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
-      <div class="prog-label">${checked}/${totalAcheter} cochés</div>
-    </div>`;
+  let html='';
+  if(!aAcheter.length&&!enStockList.length){
+    html=`<div class="empty"><div class="empty-icon">✅</div><div class="empty-title">Tout est prêt !</div><div class="empty-sub">Clara a tout trouvé dans votre inventaire.</div></div>`;
+    document.getElementById('mainContent').innerHTML=html;return;
   }
-
-  if(!aAcheter.length && !enStockList.length){
-    html += `<div class="empty-state"><div class="empty-emoji">✅</div><div class="empty-title">Tout est en stock !</div><div class="empty-sub">Clara a tout trouvé dans votre inventaire.</div></div>`;
-    document.getElementById('mainContent').innerHTML = html;
-    return;
-  }
-
-  // Section À acheter
   if(aAcheter.length){
-    if(currentFilter!=='stock') html += `<div class="section-header">🛒 À acheter</div>`;
-    html += aAcheter.map((item,i)=>{
-      const isChecked = !!checkedState[item.nom];
-      const qStr = fmtQ(item.manque||item.needed_qty, item.unite);
-      const partielBadge = item.partiel ? `<span class="manque-badge">manque ${fmtQ(item.manque, item.unite)}</span>` : '';
-      return `<div class="ing-item${isChecked?' checked':''}" onclick="toggleItem('${hesc(item.nom)}')">
+    if(currentFilter!=='stock')html+=`<div class="sec-label">🛒 À acheter (${aAcheter.length})</div>`;
+    html+=`<div class="items-list">`;
+    html+=aAcheter.map(item=>{
+      const isC=!!checkedState[item.nom],q=fmtQ(item.manque||item.needed_qty,item.unite);
+      const partielBadge=item.partiel?`<span class="manque-badge">manque ${fmtQ(item.manque,item.unite)}</span>`:'';
+      return`<div class="ing-card${isC?' checked':''}" onclick="toggleItem('${hesc(item.nom)}')">
         <div class="checkbox"><span class="check-icon">✓</span></div>
-        <div class="ing-info">
-          <div class="ing-nom">${hesc(item.nom)}${partielBadge}</div>
-          <div class="ing-qty">${qStr}${item.partiel?' (stock: '+fmtQ(item.stock_qty,item.stock_unite)+')':''}</div>
-        </div>
+        <div class="ing-info"><div class="ing-nom">${hesc(item.nom)}${partielBadge}</div><div class="ing-qty-label">${q}${item.partiel?' (stock: '+fmtQ(item.stock_qty,item.stock_unite)+')':''}</div></div>
       </div>`;
     }).join('');
+    html+=`</div>`;
   }
-
-  // Section En stock (déduites de l'inventaire)
-  if(enStockList.length && currentFilter!=='acheter'){
-    html += `<div class="section-header">✅ Déjà en stock (${enStockList.length})</div>`;
-    html += enStockList.map(item=>`
-      <div class="ing-item en-stock">
-        <div class="checkbox"><span class="check-icon">✓</span></div>
-        <div class="ing-info">
-          <div class="ing-nom">${hesc(item.nom)} <span class="stock-badge">📦 stock</span></div>
-          <div class="ing-qty">${fmtQ(item.stock_qty, item.stock_unite)} disponibles</div>
-        </div>
-      </div>`).join('');
+  if(enStockList.length&&currentFilter!=='acheter'){
+    html+=`<div class="sec-label">✅ Déjà en stock</div><div class="items-list">`;
+    html+=enStockList.map(item=>`<div class="ing-card en-stock">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="ing-info"><div class="ing-nom">${hesc(item.nom)}<span class="stock-badge">📦 stock</span></div><div class="ing-qty-label">${fmtQ(item.stock_qty,item.stock_unite)} disponibles</div></div>
+    </div>`).join('');
+    html+=`</div>`;
   }
-
-  html += `<button class="reset-btn" onclick="resetChecked()">↺ Réinitialiser</button>`;
-  document.getElementById('mainContent').innerHTML = html;
+  html+=`<div class="reset-row"><button class="reset-btn" onclick="resetChecked()">↺ Réinitialiser</button></div>`;
+  document.getElementById('mainContent').innerHTML=html;
 }
 
-function toggleItem(nom){
-  checkedState[nom] = !checkedState[nom];
-  const sem = getWeekId();
-  localStorage.setItem('clara_courses_checked_'+sem, JSON.stringify(checkedState));
-  renderListe();
-}
-function resetChecked(){
-  checkedState = {};
-  localStorage.setItem('clara_courses_checked_'+getWeekId(), '{}');
-  renderListe();
-}
+function toggleItem(nom){checkedState[nom]=!checkedState[nom];localStorage.setItem('clara_courses_checked_'+getWeekId(),JSON.stringify(checkedState));renderListe();}
+function resetChecked(){checkedState={};localStorage.setItem('clara_courses_checked_'+getWeekId(),'{}');renderListe();}
 
-// ── COPIER ──
 function copierListe(){
-  let txt = 'LISTE DE COURSES — Clara [Ensemble]\n══════════════════════════════\n';
-  const aAcheter = allItems.filter(i=>!i.enStock);
-  for(const item of aAcheter){
-    const q = fmtQ(item.manque||item.needed_qty, item.unite);
-    const check = checkedState[item.nom]?'☑':'☐';
-    txt += `${check}  ${item.nom}${q?' — '+q:''}\n`;
-  }
-  if(allItems.some(i=>i.enStock)){
-    txt += '\n── Déjà en stock ──\n';
-    allItems.filter(i=>i.enStock).forEach(i=>{ txt += `☑  ${i.nom} (stock)\n`; });
-  }
-  navigator.clipboard.writeText(txt)
-    .then(()=>showToast('Liste copiée 📋','success'))
-    .catch(()=>showToast('Erreur de copie'));
+  let txt='LISTE DE COURSES — Clara\n══════════════════════\n';
+  allItems.filter(i=>!i.enStock).forEach(item=>{const q=fmtQ(item.manque||item.needed_qty,item.unite);const c=checkedState[item.nom]?'☑':'☐';txt+=`${c}  ${item.nom}${q?' — '+q:''}\n`;});
+  if(allItems.some(i=>i.enStock)){txt+='\n── En stock ──\n';allItems.filter(i=>i.enStock).forEach(i=>{txt+=`☑  ${i.nom}\n`;});}
+  navigator.clipboard.writeText(txt).then(()=>showToast('Liste copiée 📋','success')).catch(()=>showToast('Erreur copie'));
 }
 
-function fmtQ(qty, unite){
-  if(!qty&&qty!==0)return'';
-  const q = qty%1===0?qty.toFixed(0):parseFloat(qty.toFixed(1)).toString();
-  return q+(unite?' '+unite:'');
-}
-function getWeekLabel(){const n=new Date(),d=n.getDay(),l=new Date(n);l.setDate(n.getDate()-d+(d===0?-6:1));return l.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});}
+function fmtQ(qty,unite){if(!qty&&qty!==0)return'';const q=qty%1===0?qty.toFixed(0):parseFloat(qty.toFixed(1)).toString();return q+(unite?' '+unite:'');}
 function hesc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 let tt;function showToast(m,t=''){const e=document.getElementById('toast');e.textContent=m;e.className='toast show'+(t?' '+t:'');clearTimeout(tt);tt=setTimeout(()=>e.className='toast',2800);}
 
-async function init(){
-  await chargerInventaire();
-  const sem = getWeekId();
-  const raw = localStorage.getItem('clara_planning_'+sem);
-  if(!raw){ renderEmpty(); return; }
-  const checked = localStorage.getItem('clara_courses_checked_'+sem);
-  if(checked) try{checkedState=JSON.parse(checked);}catch(e){}
-  allItems = buildListe();
-  if(!allItems.length){ renderEmpty(); return; }
-  renderInventaireBanner();
-  renderListe();
-  // Sauvegarder en Supabase (en arrière-plan)
-  sauvegarderSupabase();
+async function sauvegarderSupabase(){
+  try{const uid=getUserId(),sem=getWeekId();const rows=allItems.map(it=>({user_id:uid,semaine:sem,ingredient:it.nom,quantite:parseFloat(fmtQ(it.needed_qty,''))||0,unite:it.unite,checked:!!checkedState[it.nom]}));await fetch(`${SUPABASE_URL}/rest/v1/courses?user_id=eq.${encodeURIComponent(uid)}&semaine=eq.${sem}`,{method:'DELETE',headers:{apikey:SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});await fetch(`${SUPABASE_URL}/rest/v1/courses`,{method:'POST',headers:{apikey:SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(rows)});}catch(e){}
 }
 
 function renderEmpty(){
-  document.getElementById('headerSub').textContent = 'Aucune semaine sauvegardée';
+  document.getElementById('topbarSub').textContent='Aucune semaine sauvegardée';
   document.getElementById('invBanner').style.display='none';
-  document.getElementById('mainContent').innerHTML=`
-    <div class="empty-state"><div class="empty-emoji">🛒</div>
-    <div class="empty-title">Pas encore de liste</div>
-    <div class="empty-sub">Générez et sauvegardez votre semainier pour voir votre liste apparaître ici.</div>
-    <button class="go-btn" onclick="goTo('semainier.html')">→ Semainier</button></div>`;
+  document.getElementById('mainContent').innerHTML=`<div class="empty"><div class="empty-icon">🛒</div><div class="empty-title">Pas encore de liste</div><div class="empty-sub">Générez et sauvegardez votre semainier pour voir votre liste apparaître ici.</div><button class="go-btn" onclick="goTo('semainier.html')">→ Semainier</button></div>`;
 }
 
-async function sauvegarderSupabase(){
-  try{
-    const uid=getUserId(),sem=getWeekId();
-    const rows=allItems.map(it=>({user_id:uid,semaine:sem,ingredient:it.nom,quantite:parseFloat(fmtQ(it.needed_qty,''))||0,unite:it.unite,checked:!!checkedState[it.nom]}));
-    await fetch(`${SUPABASE_URL}/rest/v1/courses?user_id=eq.${encodeURIComponent(uid)}&semaine=eq.${sem}`,{method:'DELETE',headers:{apikey:SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});
-    await fetch(`${SUPABASE_URL}/rest/v1/courses`,{method:'POST',headers:{apikey:SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(rows)});
-  }catch(e){console.warn('Supabase courses:',e);}
+async function init(){
+  await chargerInventaire();
+  const sem=getWeekId(),raw=localStorage.getItem('clara_planning_'+sem);
+  if(!raw){renderEmpty();return;}
+  document.getElementById('topbarSub').textContent='Semaine du '+getWeekLabel();
+  const ch=localStorage.getItem('clara_courses_checked_'+sem);if(ch)try{checkedState=JSON.parse(ch);}catch(e){}
+  allItems=buildListe();
+  if(!allItems.length){renderEmpty();return;}
+  renderInventaireBanner();renderListe();
+  sauvegarderSupabase();
 }
 init();
 </script>

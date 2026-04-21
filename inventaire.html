@@ -8,7 +8,7 @@
   <style>
     :root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--coral-light:#FDF0EB;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#fff;--nav-h:68px;--radius:14px;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:calc(var(--nav-h)+24px);}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:100px;}
     .page{max-width:480px;margin:0 auto;padding:0 16px;}
 
     /* Header */
@@ -185,12 +185,12 @@
   <div id="mainContent"></div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-item" onclick="goTo('index.html')"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('semainier.html')"><div class="nav-icon">📅</div><div class="nav-label">Semainier</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('courses.html')"><div class="nav-icon">🛒</div><div class="nav-label">Courses</div><div class="nav-dot"></div></button>
-  <button class="nav-item active"><div class="nav-icon">📦</div><div class="nav-label">Inventaire</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('profil.html')"><div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-dot"></div></button>
+<nav class="fnav" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-radius:99px;padding:10px 8px;display:flex;gap:2px;box-shadow:0 8px 40px rgba(44,40,32,.20);z-index:100;border:1px solid rgba(229,221,213,.5);">
+  <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 14px;border:none;border-radius:99px;background:transparent;cursor:pointer;min-width:52px;" onclick="goTo('semainier.html')"><div style="font-size:20px">📅</div><div style="font-size:9px;font-weight:600;color:var(--text-muted)">Semaine</div></button>
+  <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 14px;border:none;border-radius:99px;background:transparent;cursor:pointer;min-width:52px;" onclick="goTo('livre.html')"><div style="font-size:20px">📖</div><div style="font-size:9px;font-weight:600;color:var(--text-muted)">Recettes</div></button>
+  <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 14px;border:none;border-radius:99px;background:transparent;cursor:pointer;min-width:52px;" onclick="goTo('courses.html')"><div style="font-size:20px">🛒</div><div style="font-size:9px;font-weight:600;color:var(--text-muted)">Courses</div></button>
+  <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 14px;border:none;border-radius:99px;background:var(--teal);cursor:pointer;min-width:52px;" onclick="goTo('inventaire.html')"><div style="font-size:20px">📦</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,.9)">Stock</div></button>
+  <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 14px;border:none;border-radius:99px;background:transparent;cursor:pointer;min-width:52px;" onclick="goTo('profil.html')"><div style="font-size:20px">👤</div><div style="font-size:9px;font-weight:600;color:var(--text-muted)">Profil</div></button>
 </nav>
 
 <script>

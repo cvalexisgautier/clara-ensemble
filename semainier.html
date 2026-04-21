@@ -1,239 +1,179 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
-  <title>Clara [Ensemble] — Semainier</title>
-  <script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;type=content-script&amp;dmn=api.netlify.com&amp;url=https%3A%2F%2Fapi.netlify.com%2Fapi%2Fv1%2Fdeploys%2F69e74ec219d4250008911cdd%2Ffiles%2Fsemainier.html&amp;app=chrome.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-dnt"></script><script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    :root{
-      --cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;
-      --coral:#D85A30;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;
-      --white:#fff;--nav-h:68px;--radius:14px;
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{height:100%;}
-    body{min-height:100%;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:calc(var(--nav-h)+16px);}
-    .page{max-width:480px;margin:0 auto;padding:0 16px;}
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>Clara — Semainier</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#FFFFFF;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:100px;min-height:100vh;}
 
-    /* ── Header ── */
-    .header{display:flex;align-items:center;justify-content:space-between;padding:20px 0 14px;position:sticky;top:0;z-index:20;background:var(--cream);}
-    .brand{font-family:'Lora',serif;font-size:17px;font-weight:600;color:var(--teal);}
-    .week-label{font-size:12px;color:var(--text-muted);margin-top:2px;}
-    .header-actions{display:flex;gap:8px;}
-    .icon-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .2s;}
-    .icon-btn:hover{border-color:var(--teal);background:var(--teal-light);}
+/* ── TOP HEADER ── */
+.topbar{background:var(--white);padding:16px 20px 12px;position:sticky;top:0;z-index:50;border-bottom:1px solid var(--border);}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.brand{font-family:'Lora',serif;font-size:20px;font-weight:600;color:var(--teal);}
+.week-info{font-size:11px;color:var(--text-muted);text-align:right;}
+.week-label{font-size:12px;color:var(--text-muted);margin-top:1px;}
+.chips-row{display:flex;gap:8px;align-items:center;}
+.chip{padding:6px 12px;border-radius:99px;font-size:12px;font-weight:500;}
+.chip-teal{background:var(--teal-light);color:var(--teal);border:1.5px solid rgba(29,158,117,.2);}
+.chip-gray{background:var(--cream);color:var(--text-muted);border:1.5px solid var(--border);}
+.chip strong{color:var(--teal);}
+.top-actions{display:flex;gap:8px;}
+.btn-icon{width:36px;height:36px;border-radius:99px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.btn-icon:hover{border-color:var(--teal);background:var(--teal-light);}
 
-    /* ── Info bar ── */
-    .info-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-    .saison-badge{padding:6px 12px;border-radius:99px;background:var(--teal-light);border:1.5px solid rgba(29,158,117,.2);font-size:12px;font-weight:600;color:var(--teal);}
-    .profile-chip{padding:6px 12px;border-radius:99px;background:var(--white);border:1.5px solid var(--border);font-size:12px;color:var(--text-muted);}
-    .progress-chip{padding:6px 12px;border-radius:99px;background:var(--white);border:1.5px solid var(--border);font-size:12px;color:var(--text-muted);}
-    .progress-chip strong{color:var(--teal);}
+/* ── DAYS STRIP ── */
+.days-strip{padding:14px 20px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.days-strip::-webkit-scrollbar{display:none;}
+.days-inner{display:flex;gap:8px;min-width:max-content;}
+.day-card{width:58px;padding:10px 0 8px;border-radius:16px;background:var(--white);border:2px solid var(--border);text-align:center;cursor:pointer;transition:all .2s;position:relative;flex-shrink:0;}
+.day-card.active{background:var(--teal);border-color:var(--teal);}
+.day-card.complete:not(.active){border-color:var(--teal);background:var(--teal-light);}
+.day-card .d-name{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);}
+.day-card.active .d-name{color:rgba(255,255,255,.8);}
+.day-card.complete:not(.active) .d-name{color:var(--teal-dark);}
+.day-card .d-num{font-family:'Lora',serif;font-size:20px;font-weight:600;color:var(--text);margin-top:2px;}
+.day-card.active .d-num{color:var(--white);}
+.day-card .d-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);margin:5px auto 0;opacity:0;}
+.day-card.complete .d-dot{opacity:1;}
+.day-card.active .d-dot{background:rgba(255,255,255,.7);opacity:1;}
 
-    /* ── Navigation jours ── */
-    .days-nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none;}
-    .days-nav::-webkit-scrollbar{display:none;}
-    .day-tab{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:8px 12px;border-radius:10px;background:var(--white);border:1.5px solid var(--border);cursor:pointer;transition:all .2s;min-width:52px;position:relative;}
-    .day-tab.active{background:var(--teal);border-color:var(--teal);}
-    .day-tab.complete{border-color:var(--teal);}
-    .day-name{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);}
-    .day-tab.active .day-name{color:rgba(255,255,255,.8);}
-    .day-num{font-size:16px;font-weight:700;color:var(--text);margin-top:2px;}
-    .day-tab.active .day-num{color:var(--white);}
-    .day-check{position:absolute;top:4px;right:4px;font-size:9px;color:var(--teal);}
-    .day-tab.active .day-check{color:white;}
+/* ── MAIN CONTENT ── */
+.content{padding:16px 20px 0;}
 
-    /* ── Moment section ── */
-    .moment-section{margin-bottom:24px;}
-    .moment-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-    .moment-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
-    .moment-refresh{padding:5px 12px;border-radius:99px;border:1.5px solid var(--border);background:var(--white);font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .2s;}
-    .moment-refresh:hover{border-color:var(--teal);color:var(--teal);}
-    .moment-refresh.spinning svg{animation:spin .5s linear infinite;}
+/* ── MOMENT SECTION ── */
+.moment-block{margin-bottom:20px;}
+.moment-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.moment-title{font-size:13px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
+.regen-btn{font-size:11px;color:var(--teal);background:var(--teal-light);border:none;padding:5px 12px;border-radius:99px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;}
 
-    /* ── Cards de proposition ── */
-    .proposals-list{display:flex;flex-direction:column;gap:8px;}
+/* ── PROPOSAL CARDS ── */
+.props-list{display:flex;flex-direction:column;gap:8px;}
+.prop-card{background:var(--white);border-radius:16px;border:2px solid var(--border);display:flex;align-items:center;gap:12px;padding:12px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.prop-card:hover{border-color:var(--teal);transform:translateX(2px);}
+.prop-card.selected{border-color:var(--teal);background:var(--teal-light);}
+.prop-card.unselected{opacity:.45;}
+.prop-card.unselected:hover{opacity:.8;}
 
-    /* Card non sélectionnée */
-    .prop-card{
-      background:var(--white);
-      border:1.5px solid var(--border);
-      border-radius:var(--radius);
-      padding:12px 14px;
-      display:flex;align-items:center;gap:10px;
-      cursor:pointer;
-      transition:all .25s;
-      position:relative;
-      overflow:hidden;
-    }
-    .prop-card:hover{border-color:var(--teal);transform:translateX(2px);}
-    .prop-card.selected{
-      border-color:var(--teal);
-      background:var(--teal-light);
-      transform:none;
-    }
-    .prop-card.selected::before{
-      content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
-      background:var(--teal);border-radius:0;
-    }
-    .prop-card.unselected{opacity:.5;}
-    .prop-card.unselected:hover{opacity:.8;border-color:var(--teal);}
+/* Card thumb */
+.prop-thumb-wrap{flex-shrink:0;width:60px;height:60px;border-radius:12px;overflow:hidden;}
+.prop-thumb-wrap img{width:100%;height:100%;object-fit:cover;}
+.prop-emoji-box{width:60px;height:60px;border-radius:12px;background:linear-gradient(135deg,var(--teal-light),var(--cream));display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
 
-    /* Numéro de proposition */
-    .prop-num{
-      width:24px;height:24px;border-radius:50%;
-      background:var(--cream);border:1.5px solid var(--border);
-      display:flex;align-items:center;justify-content:center;
-      font-size:11px;font-weight:700;color:var(--text-muted);
-      flex-shrink:0;transition:all .25s;
-    }
-    .prop-card.selected .prop-num{
-      background:var(--teal);border-color:var(--teal);color:white;
-    }
-    .prop-card.selected .prop-num::after{content:'✓';}
-    .prop-card:not(.selected) .prop-num-text{display:block;}
-    .prop-card.selected .prop-num-text{display:none;}
+.prop-body{flex:1;min-width:0;}
+.prop-num-badge{display:inline-block;width:18px;height:18px;border-radius:99px;background:var(--border);color:var(--text-muted);font-size:9px;font-weight:700;text-align:center;line-height:18px;margin-bottom:3px;}
+.prop-card.selected .prop-num-badge{background:var(--teal);color:white;}
+.prop-title{font-family:'Lora',serif;font-size:14px;font-weight:600;color:var(--text);line-height:1.25;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.prop-card.selected .prop-title{color:var(--teal-dark);}
+.prop-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.ptag{font-size:11px;color:var(--text-muted);background:var(--cream);padding:2px 8px;border-radius:99px;}
+.prop-card.selected .ptag{background:rgba(29,158,117,.12);color:var(--teal-dark);}
 
-    .prop-emoji{font-size:26px;flex-shrink:0;line-height:1;}
-    .prop-thumb{width:52px;height:52px;border-radius:10px;object-fit:cover;flex-shrink:0;}
-    .prop-info{flex:1;min-width:0;}
-    .prop-titre{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;}
-    .prop-card.selected .prop-titre{color:var(--teal-dark);}
-    .prop-meta{display:flex;gap:6px;}
-    .meta-tag{font-size:11px;color:var(--text-muted);background:var(--cream);padding:2px 7px;border-radius:99px;}
-    .prop-card.selected .meta-tag{background:rgba(29,158,117,.12);color:var(--teal-dark);}
+.prop-right{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;}
+.check-badge{width:28px;height:28px;border-radius:99px;background:var(--teal);color:white;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.view-btn{width:28px;height:28px;border-radius:99px;border:1.5px solid var(--border);background:transparent;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.view-btn:hover{background:var(--teal-light);}
 
-    /* Badge "Votre choix" */
-    .selected-badge{
-      font-size:10px;font-weight:700;letter-spacing:.5px;
-      color:var(--teal);background:rgba(29,158,117,.12);
-      padding:3px 8px;border-radius:99px;flex-shrink:0;
-      white-space:nowrap;
-    }
+/* ── SAVE BAR ── */
+.save-bar{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);z-index:80;}
+.save-btn{background:var(--teal);color:white;border:none;padding:14px 32px;border-radius:99px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(29,158,117,.35);transition:all .2s;}
+.save-btn:hover{background:var(--teal-dark);transform:translateY(-1px);}
+.save-btn:disabled{opacity:.4;transform:none;}
 
-    /* ── CTAs ── */
-    .cta-row{display:flex;gap:10px;margin-bottom:16px;}
-    .cta-btn{flex:1;padding:15px 12px;border-radius:var(--radius);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;transition:all .2s;}
-    .cta-btn.primary{background:var(--teal);color:var(--white);}
-    .cta-btn.primary:hover{background:var(--teal-dark);}
-    .cta-btn.secondary{background:var(--white);color:var(--text);border:1.5px solid var(--border);}
-    .cta-btn.secondary:hover{border-color:var(--teal);color:var(--teal);}
-    .cta-btn:active{transform:scale(.98);}
-    .cta-btn:disabled{opacity:.4;cursor:not-allowed;}
+/* ── LOADING ── */
+.loader{position:fixed;inset:0;background:rgba(247,243,237,.9);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+.loader.visible{display:flex;}
+.spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:spin 1s linear infinite;}
+.loader-txt{font-size:13px;color:var(--text-muted);}
 
-    /* ── Bottom nav ── */
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 4px;z-index:100;}
-    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px;cursor:pointer;border-radius:10px;transition:all .2s;border:none;background:none;}
-    .nav-icon{font-size:19px;line-height:1;}
-    .nav-label{font-size:9px;font-weight:600;color:var(--text-muted);}
-    .nav-item.active .nav-label{color:var(--teal);}
-    .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:0;}
-    .nav-item.active .nav-dot{opacity:1;}
+/* ── FLOATING NAV ── */
+.fnav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-radius:99px;padding:10px 8px;display:flex;gap:2px;box-shadow:0 8px 40px rgba(44,40,32,.20);z-index:100;border:1px solid rgba(229,221,213,.5);}
+.fnb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 14px;border:none;border-radius:99px;background:transparent;cursor:pointer;transition:all .2s;min-width:52px;}
+.fi{font-size:20px;line-height:1;}
+.fl{font-size:9px;font-weight:600;color:var(--text-muted);}
+.fnb.active{background:var(--teal);}
+.fnb.active .fl{color:rgba(255,255,255,.9);}
 
-    /* ── Loading & Toast ── */
-    .loading-overlay{position:fixed;inset:0;z-index:200;background:rgba(247,243,237,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:0;pointer-events:none;transition:opacity .3s;}
-    .loading-overlay.visible{opacity:1;pointer-events:all;}
-    .loader{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;}
-    .loader-text{font-family:'Lora',serif;font-size:14px;color:var(--text-muted);font-style:italic;}
-    .toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:var(--white);padding:10px 18px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;z-index:300;white-space:nowrap;}
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-    .toast.success{background:var(--teal);}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--text);color:var(--white);padding:10px 20px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap;z-index:300;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{background:var(--teal);}
 
-    @keyframes spin{to{transform:rotate(360deg);}}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
-    .prop-card{animation:fadeUp .25s ease both;}
-  </style>
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.moment-block{animation:fadeUp .3s ease both;}
+</style>
 </head>
 <body>
 
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="loader"></div>
-  <div class="loader-text" id="loaderText">Clara prépare vos propositions…</div>
+<div class="loader" id="loadingOverlay">
+  <div class="spin"></div>
+  <div class="loader-txt" id="loaderText">Chargement…</div>
 </div>
 <div class="toast" id="toast"></div>
 
-<div class="page">
-  <!-- Header -->
-  <div class="header">
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-row">
     <div>
-      <div class="brand">Clara <span style="font-family:'DM Sans';font-weight:400;font-size:13px;color:var(--text-muted)">[Ensemble]</span></div>
-      <div class="week-label" id="weekLabel">…</div>
+      <div class="brand">Clara</div>
+      <div class="week-label" id="weekLabel">Semaine…</div>
     </div>
-    <div class="header-actions">
-      <button class="icon-btn" title="Tout régénérer" onclick="regenererSemaine()">🎲</button>
-      <button class="icon-btn" onclick="goTo('profil.html')">👤</button>
+    <div class="top-actions">
+      <button class="btn-icon" onclick="regenererSemaine()" title="Nouvelles propositions">🔀</button>
+      <button class="btn-icon" onclick="goTo('profil.html')" title="Profil">👤</button>
     </div>
   </div>
-
-  <!-- Info bar -->
-  <div class="info-bar">
-    <div class="saison-badge" id="saisonBadge">🌸 Printemps</div>
-    <div class="profile-chip" id="profileChip">👤 …</div>
-    <div class="progress-chip" id="progressChip"><strong>0</strong>/21 repas choisis</div>
-  </div>
-
-  <!-- Navigation jours -->
-  <div class="days-nav" id="daysNav"></div>
-
-  <!-- Contenu principal -->
-  <div id="mainContent"></div>
-
-  <!-- CTAs -->
-  <div class="cta-row">
-    <button class="cta-btn secondary" id="saveBtn" onclick="sauvegarderSemaine()" disabled>💾 Sauvegarder</button>
-    <button class="cta-btn primary" onclick="goTo('courses.html')">🛒 Courses</button>
+  <div class="chips-row">
+    <span class="chip chip-teal" id="saisonBadge">…</span>
+    <span class="chip chip-gray" id="profileChip">…</span>
+    <span class="chip chip-gray" id="progressChip"><strong>0</strong>/21 repas</span>
   </div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-item" onclick="goTo('index.html')"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div><div class="nav-dot"></div></button>
-  <button class="nav-item active"><div class="nav-icon">📅</div><div class="nav-label">Semainier</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('courses.html')"><div class="nav-icon">🛒</div><div class="nav-label">Courses</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('inventaire.html')"><div class="nav-icon">📦</div><div class="nav-label">Inventaire</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('profil.html')"><div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-dot"></div></button>
+<!-- DAY STRIP -->
+<div class="days-strip"><div class="days-inner" id="daysNav"></div></div>
+
+<!-- CONTENT -->
+<div class="content" id="mainContent"></div>
+
+<!-- SAVE BAR -->
+<div class="save-bar">
+  <button class="save-btn" id="saveBtn" onclick="sauvegarderSemaine()" disabled>💾 Sauvegarder la semaine</button>
+</div>
+
+<!-- FLOATING NAV -->
+<nav class="fnav">
+  <button class="fnb active" onclick="goTo('semainier.html')"><div class="fi">📅</div><div class="fl">Semaine</div></button>
+  <button class="fnb" onclick="goTo('livre.html')"><div class="fi">📖</div><div class="fl">Recettes</div></button>
+  <button class="fnb" onclick="goTo('courses.html')"><div class="fi">🛒</div><div class="fl">Courses</div></button>
+  <button class="fnb" onclick="goTo('inventaire.html')"><div class="fi">📦</div><div class="fl">Stock</div></button>
+  <button class="fnb" onclick="goTo('profil.html')"><div class="fi">👤</div><div class="fl">Profil</div></button>
 </nav>
 
 <script>
 const SUPABASE_URL='https://vquwacvjfpolqtyxydqw.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxdXdhY3ZqZnBvbHF0eXh5ZHF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTk5NTEsImV4cCI6MjA5MjI5NTk1MX0.-Nqkk96nby_SObo_Vrq-OSiD0zXnke42IbiVtVbyOP4';
-
 const JOURS=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
 const MOMENTS=['Petit-Déjeuner','Déjeuner','Dîner'];
 const MI={'Petit-Déjeuner':'☀️','Déjeuner':'🌤️','Dîner':'🌙'};
 const SAISON_ICONS={Printemps:'🌸',Été:'☀️',Automne:'🍂',Hiver:'❄️'};
-const NB_PROPS = 3; // Nombre de propositions par slot
-
-// ── STATE ──
-// proposals[jour][moment] = [recette1, recette2, recette3]
-// planning[jour][moment]  = recette choisie (ou null)
-let proposals = {};
-let planning  = {};
-let recettes  = [];
-const recetteIndex = new Map();
-let profil = null;
-let saison = '';
-let currentJour = 0;
+const NB_PROPS=3;
+let proposals={},planning={},recettes=[],recetteIndex=new Map(),profil=null,saison='',currentJour=0;
 
 function goTo(u){window.location.href=u;}
 function getUserId(){return localStorage.getItem('clara_user_id')||'anon';}
 function getWeekId(){const n=new Date(),d=n.getDay(),l=new Date(n);l.setDate(n.getDate()-d+(d===0?-6:1));return l.toISOString().slice(0,10);}
 function getSaison(){const m=new Date().getMonth()+1;if(m>=3&&m<=5)return'Printemps';if(m>=6&&m<=8)return'Été';if(m>=9&&m<=11)return'Automne';return'Hiver';}
 function getWeekLabel(){const n=new Date(),d=n.getDay(),l=new Date(n);l.setDate(n.getDate()-d+(d===0?-6:1));const di=new Date(l);di.setDate(l.getDate()+6);const fmt=x=>x.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});return fmt(l)+' – '+fmt(di);}
-
-// ── PROFIL ──
 function loadProfil(){try{const r=localStorage.getItem('clara_profile');return r?JSON.parse(r):null;}catch(e){return null;}}
 
-// ── RECETTES ──
 async function chargerRecettes(){
-  try{
-    const r=await fetch('recettes.json');
-    if(r.ok){recettes=await r.json();recettes.forEach(r=>recetteIndex.set(String(r.id),r));return;}
-  }catch(e){}
+  try{const r=await fetch('recettes.json');if(r.ok){recettes=await r.json();recettes.forEach(r=>recetteIndex.set(String(r.id),r));return;}}catch(e){}
   recettes=DEMO;recettes.forEach(r=>recetteIndex.set(String(r.id),r));
 }
 
-// ── FILTRAGE ──
 function filtrer(moment,opts={}){
   return recettes.filter(r=>{
     if(!(r.tags?.moments||[]).includes(moment))return false;
@@ -247,131 +187,67 @@ function filtrer(moment,opts={}){
   });
 }
 
-function piocherN(moment, n, excl=[]){
-  // Récupère n recettes distinctes en cascade de filtres
-  const pools = [
-    ()=>filtrer(moment),
-    ()=>filtrer(moment,{saison:true}),
-    ()=>filtrer(moment,{saison:true,budget:true}),
-    ()=>filtrer(moment,{saison:true,budget:true,allergenes:true}),
-    ()=>recettes.filter(r=>(r.tags?.moments||[]).includes(moment))
-  ];
-
-  const result = [];
-  const usedIds = new Set(excl);
-
-  for(const poolFn of pools){
-    if(result.length >= n) break;
-    const pool = poolFn().filter(r=>!usedIds.has(r.id));
-    // Mélanger le pool
-    const shuffled = pool.sort(()=>Math.random()-.5);
-    for(const r of shuffled){
-      if(result.length >= n) break;
-      if(!usedIds.has(r.id)){ result.push(r); usedIds.add(r.id); }
-    }
+function piocherN(moment,n,excl=[]){
+  const pools=[()=>filtrer(moment),()=>filtrer(moment,{saison:true}),()=>filtrer(moment,{saison:true,budget:true}),()=>filtrer(moment,{saison:true,budget:true,allergenes:true}),()=>recettes.filter(r=>(r.tags?.moments||[]).includes(moment))];
+  const result=[],usedIds=new Set(excl);
+  for(const pFn of pools){
+    if(result.length>=n)break;
+    const pool=pFn().filter(r=>!usedIds.has(r.id)).sort(()=>Math.random()-.5);
+    for(const r of pool){if(result.length>=n)break;if(!usedIds.has(r.id)){result.push(r);usedIds.add(r.id);}}
   }
   return result;
 }
 
-// ── GÉNÉRATION SEMAINE COMPLÈTE ──
 function genererSemaine(){
-  const allUsed = [];
-  proposals={};planning={};
-  for(const j of JOURS){
-    proposals[j]={};planning[j]={};
-    for(const m of MOMENTS){
-      const props = piocherN(m, NB_PROPS, allUsed);
-      proposals[j][m] = props;
-      props.forEach(p=>allUsed.push(p.id));
-      planning[j][m] = null; // Aucun choix initial
-    }
-  }
+  const allUsed=[];proposals={};planning={};
+  for(const j of JOURS){proposals[j]={};planning[j]={};for(const m of MOMENTS){const p=piocherN(m,NB_PROPS,allUsed);proposals[j][m]=p;p.forEach(x=>allUsed.push(x.id));planning[j][m]=null;}}
 }
 
-// ── RÉGÉNÉRER UN SLOT (3 nouvelles propositions) ──
-function regenererSlot(jour, moment){
-  // Exclure tout ce qui est déjà proposé ou choisi ailleurs
-  const excl = [];
-  for(const j of JOURS){
-    for(const m of MOMENTS){
-      if(j===jour && m===moment) continue;
-      (proposals[j]?.[m]||[]).forEach(r=>excl.push(r.id));
-      if(planning[j]?.[m]) excl.push(planning[j][m].id);
-    }
-  }
-  const newProps = piocherN(moment, NB_PROPS, excl);
-  proposals[jour][moment] = newProps;
-  planning[jour][moment] = null; // Reset choix
-  renderJour();
-  updateProgress();
+function regenererSlot(jour,moment){
+  const excl=[];
+  for(const j of JOURS)for(const m of MOMENTS){if(j===jour&&m===moment)continue;(proposals[j]?.[m]||[]).forEach(r=>excl.push(r.id));if(planning[j]?.[m])excl.push(planning[j][m].id);}
+  proposals[jour][moment]=piocherN(moment,NB_PROPS,excl);
+  planning[jour][moment]=null;
+  renderJour();updateProgress();
 }
 
 function regenererSemaine(){
   showLoading(true,'Nouvelles propositions…');
-  setTimeout(()=>{
-    genererSemaine();
-    showLoading(false);
-    renderDaysNav();
-    renderJour();
-    updateProgress();
-    showToast('Nouvelles propositions générées ✨','success');
-  },350);
+  setTimeout(()=>{genererSemaine();showLoading(false);renderDaysNav();renderJour();updateProgress();showToast('Nouvelles propositions ✨','success');},350);
 }
 
-// ── CHOIX UTILISATEUR ──
-function choisir(jour, moment, recetteId){
-  const props = proposals[jour]?.[moment]||[];
-  const recette = props.find(r=>String(r.id)===String(recetteId));
-  if(!recette) return;
-
-  // Toggle : re-cliquer désélectionne
-  const current = planning[jour]?.[moment];
-  if(current && String(current.id)===String(recetteId)){
-    planning[jour][moment] = null;
-  } else {
-    planning[jour][moment] = recette;
-  }
-
-  renderJour();
-  updateProgress();
+function choisir(jour,moment,id){
+  const props=proposals[jour]?.[moment]||[];
+  const rec=props.find(r=>String(r.id)===String(id));
+  if(!rec)return;
+  const cur=planning[jour]?.[moment];
+  planning[jour][moment]=(cur&&String(cur.id)===String(id))?null:rec;
+  renderJour();updateProgress();
 }
 
-// ── PROGRESS ──
 function updateProgress(){
-  let count = 0;
-  for(const j of JOURS) for(const m of MOMENTS) if(planning[j]?.[m]) count++;
-  document.getElementById('progressChip').innerHTML = `<strong>${count}</strong>/21 repas choisis`;
-  document.getElementById('saveBtn').disabled = count === 0;
-  renderDaysNav(); // Mettre à jour les ✓ sur les onglets jours
+  let count=0;
+  for(const j of JOURS)for(const m of MOMENTS)if(planning[j]?.[m])count++;
+  document.getElementById('progressChip').innerHTML=`<strong>${count}</strong>/21 repas`;
+  document.getElementById('saveBtn').disabled=count===0;
+  renderDaysNav();
 }
 
-// ── SAUVEGARDE ──
 async function sauvegarderSemaine(){
-  const choixCount = JOURS.reduce((acc,j)=>acc+MOMENTS.filter(m=>planning[j]?.[m]).length,0);
-  if(choixCount===0){showToast('Choisissez au moins une recette');return;}
-
+  const count=JOURS.reduce((a,j)=>a+MOMENTS.filter(m=>planning[j]?.[m]).length,0);
+  if(!count){showToast('Choisissez au moins une recette');return;}
   showLoading(true,'Sauvegarde…');
   const uid=getUserId(),sem=getWeekId();
-
-  // localStorage (planning complet des choix)
-  localStorage.setItem('clara_planning_'+sem, JSON.stringify(planning));
-
-  // Supabase
+  localStorage.setItem('clara_planning_'+sem,JSON.stringify(planning));
   try{
     const rows=[];
-    for(const j of JOURS) for(const m of MOMENTS){
-      const r=planning[j]?.[m];
-      if(r) rows.push({user_id:uid,semaine:sem,jour:j,moment:m,recette_id:String(r.id),recette_titre:r.titre,recette_emoji:r.ux?.emoji||'🍽️'});
-    }
+    for(const j of JOURS)for(const m of MOMENTS){const r=planning[j]?.[m];if(r)rows.push({user_id:uid,semaine:sem,jour:j,moment:m,recette_id:String(r.id),recette_titre:r.titre,recette_emoji:r.ux?.emoji||'🍽️'});}
     await supaFetch(`/rest/v1/planning?user_id=eq.${encodeURIComponent(uid)}&semaine=eq.${sem}`,{method:'DELETE'});
-    if(rows.length) await supaFetch('/rest/v1/planning',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(rows)});
+    if(rows.length)await supaFetch('/rest/v1/planning',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(rows)});
     showLoading(false);showToast('Semaine sauvegardée 💾','success');
-  }catch(e){
-    showLoading(false);showToast('Sauvegardé en local ✓','success');
-  }
+  }catch(e){showLoading(false);showToast('Sauvegardé en local ✓','success');}
 }
 
-// ── SUPABASE ──
 async function supaFetch(path,opts={}){
   const r=await fetch(SUPABASE_URL+path,{...opts,headers:{apikey:SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',...(opts.headers||{})}});
   if(!r.ok)throw new Error(await r.text());
@@ -383,89 +259,71 @@ async function chargerPlanningSupabase(){
     const uid=getUserId(),sem=getWeekId();
     const data=await supaFetch(`/rest/v1/planning?user_id=eq.${encodeURIComponent(uid)}&semaine=eq.${sem}&select=*`);
     if(!data||!data.length)return false;
-    for(const row of data){
-      const rec=recetteIndex.get(String(row.recette_id));
-      if(rec && planning[row.jour]!==undefined){ planning[row.jour][row.moment]=rec; }
-    }
+    for(const row of data){const rec=recetteIndex.get(String(row.recette_id));if(rec&&planning[row.jour]!==undefined)planning[row.jour][row.moment]=rec;}
     return true;
   }catch(e){return false;}
 }
 
-// ── NAVIGATION RECETTE ──
 function ouvrirRecette(id){
-  const r=recetteIndex.get(String(id));
-  if(!r){showToast('Recette introuvable');return;}
-  try{
-    sessionStorage.setItem('clara_recette_courante',JSON.stringify(r));
-    sessionStorage.setItem('clara_nb_personnes',String(profil.nb_personnes||2));
-    window.location.href='recette.html';
-  }catch(e){}
+  const r=recetteIndex.get(String(id));if(!r){showToast('Recette introuvable');return;}
+  try{sessionStorage.setItem('clara_recette_courante',JSON.stringify(r));sessionStorage.setItem('clara_nb_personnes',String(profil.nb_personnes||2));window.location.href='recette.html';}catch(e){}
 }
 
-// ── RENDU JOURS ──
 function renderDaysNav(){
   const now=new Date(),d=now.getDay(),ti=d===0?6:d-1;
   document.getElementById('daysNav').innerHTML=JOURS.map((j,i)=>{
     const dt=new Date(now);dt.setDate(now.getDate()+(i-ti));
     const choisis=MOMENTS.filter(m=>planning[j]?.[m]).length;
-    const isComplete=choisis===MOMENTS.length;
-    const isActive=i===currentJour;
-    return`<div class="day-tab${isActive?' active':''}${isComplete&&!isActive?' complete':''}" onclick="selectJour(${i})">
-      ${isComplete?`<div class="day-check">✓</div>`:''}
-      <div class="day-name">${j.slice(0,3)}</div>
-      <div class="day-num">${dt.getDate()}</div>
+    const isComplete=choisis===MOMENTS.length,isActive=i===currentJour;
+    return`<div class="day-card${isActive?' active':''}${isComplete&&!isActive?' complete':''}" onclick="selectJour(${i})">
+      <div class="d-name">${j.slice(0,3)}</div>
+      <div class="d-num">${dt.getDate()}</div>
+      <div class="d-dot"></div>
     </div>`;
   }).join('');
+  // Scroll to active
+  setTimeout(()=>{const el=document.querySelectorAll('.day-card')[currentJour];if(el)el.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});},50);
 }
 
 function selectJour(i){currentJour=i;renderDaysNav();renderJour();}
 
-// ── RENDU JOUR COURANT ──
 function renderJour(){
   const jour=JOURS[currentJour];
-  const html=MOMENTS.map(moment=>{
+  const html=MOMENTS.map((moment,mi)=>{
     const props=proposals[jour]?.[moment]||[];
     const choix=planning[jour]?.[moment];
     const hasChoice=!!choix;
-
-    return`<div class="moment-section">
-      <div class="moment-header">
-        <div class="moment-label">${MI[moment]} ${moment}</div>
-        <button class="moment-refresh" onclick="regenererSlot('${hesc(jour)}','${hesc(moment)}')">↺ Nouvelles propositions</button>
+    return`<div class="moment-block" style="animation-delay:${mi*60}ms">
+      <div class="moment-hd">
+        <div class="moment-title">${MI[moment]} ${moment}</div>
+        <button class="regen-btn" onclick="regenererSlot('${hesc(jour)}','${hesc(moment)}')">↺ Autres</button>
       </div>
-      <div class="proposals-list">
+      <div class="props-list">
         ${props.map((r,idx)=>{
-          const isSelected = hasChoice && String(choix.id)===String(r.id);
-          const isUnselected = hasChoice && !isSelected;
+          const isSelected=hasChoice&&String(choix.id)===String(r.id);
+          const isUnselected=hasChoice&&!isSelected;
+          const e=r.ux?.emoji||'🍽️';
           const t=r.metrics?.total_time||'—';
           const b=r.tags?.budget||'€€';
-          const e=r.ux?.emoji||'🍽️';
           const thumbHtml=r.url_image
-            ?`<img class="prop-thumb" src="${r.url_image}" alt="${hesc(r.titre)}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='block'"><div class="prop-emoji" style="display:none">${e}</div>`
-            :`<div class="prop-emoji">${e}</div>`;
-          return`<div class="prop-card${isSelected?' selected':''}${isUnselected?' unselected':''}"
-            onclick="choisir('${hesc(jour)}','${hesc(moment)}','${hesc(String(r.id))}')"
-            style="animation-delay:${idx*60}ms">
-            <div class="prop-num">
-              <span class="prop-num-text">${idx+1}</span>
-            </div>
+            ?`<div class="prop-thumb-wrap"><img src="${r.url_image}" alt="" loading="lazy" onerror="this.parentElement.outerHTML='<div class=\\'prop-emoji-box\\'>${e}</div>'"/></div>`
+            :`<div class="prop-emoji-box">${e}</div>`;
+          return`<div class="prop-card${isSelected?' selected':''}${isUnselected?' unselected':''}" onclick="choisir('${hesc(jour)}','${hesc(moment)}','${hesc(String(r.id))}')" style="animation-delay:${idx*40}ms">
             ${thumbHtml}
-            <div class="prop-info">
-              <div class="prop-titre">${hesc(r.titre)}</div>
-              <div class="prop-meta">
-                <span class="meta-tag">⏱ ${t} min</span>
-                <span class="meta-tag">${b}</span>
-              </div>
+            <div class="prop-body">
+              <div class="prop-num-badge">${isSelected?'✓':idx+1}</div>
+              <div class="prop-title">${hesc(r.titre)}</div>
+              <div class="prop-tags"><span class="ptag">⏱ ${t} min</span><span class="ptag">${b}</span></div>
             </div>
-            ${isSelected?'<div class="selected-badge">✓ Choisi</div>':''}
-            <button style="width:28px;height:28px;border-radius:50%;border:none;background:transparent;font-size:14px;cursor:pointer;color:var(--text-muted);flex-shrink:0;"
-              onclick="event.stopPropagation();ouvrirRecette('${hesc(String(r.id))}')">👁</button>
+            <div class="prop-right">
+              ${isSelected?'<div class="check-badge">✓</div>':''}
+              <button class="view-btn" onclick="event.stopPropagation();ouvrirRecette('${hesc(String(r.id))}')">👁</button>
+            </div>
           </div>`;
         }).join('')}
       </div>
     </div>`;
   }).join('');
-
   document.getElementById('mainContent').innerHTML=html;
 }
 
@@ -473,76 +331,39 @@ function hesc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').r
 function showLoading(v,t){const e=document.getElementById('loadingOverlay');e.classList.toggle('visible',v);if(t)document.getElementById('loaderText').textContent=t;}
 let tt;function showToast(m,t=''){const e=document.getElementById('toast');e.textContent=m;e.className='toast show'+(t?' '+t:'');clearTimeout(tt);tt=setTimeout(()=>e.className='toast',2800);}
 
-// ── INIT ──
 async function init(){
-  showLoading(true,'Chargement du profil…');
+  showLoading(true,'Chargement…');
   profil=loadProfil();
   if(!profil){window.location.href='index.html';return;}
   document.getElementById('weekLabel').textContent=getWeekLabel();
   saison=getSaison();
   document.getElementById('saisonBadge').textContent=(SAISON_ICONS[saison]||'🌿')+' '+saison;
   document.getElementById('profileChip').textContent='👤 '+(profil.prenom||'Vous')+' · '+(profil.nb_personnes||2)+' pers.';
-
-  showLoading(true,'Chargement des recettes…');
+  showLoading(true,'Recettes…');
   await chargerRecettes();
-
-  showLoading(true,'Génération des propositions…');
-  // Générer les 3 propositions par slot
   genererSemaine();
-
-  // Charger les choix déjà sauvegardés
-  const sem=getWeekId();
-  const cached=localStorage.getItem('clara_planning_'+sem);
+  const sem=getWeekId(),cached=localStorage.getItem('clara_planning_'+sem);
   if(cached){
     try{
-      const savedPlanning=JSON.parse(cached);
-      // Restaurer les choix dans le planning
-      for(const j of JOURS) for(const m of MOMENTS){
-        const saved=savedPlanning[j]?.[m];
-        if(saved){
-          // S'assurer que la recette sauvegardée est dans les propositions
-          const isInProps = (proposals[j]?.[m]||[]).some(p=>String(p.id)===String(saved.id));
-          if(!isInProps){
-            // L'ajouter comme 1ère proposition
-            proposals[j][m].unshift(saved);
-            if(proposals[j][m].length>NB_PROPS) proposals[j][m]=proposals[j][m].slice(0,NB_PROPS);
-          }
-          planning[j][m]=recetteIndex.get(String(saved.id))||saved;
-        }
-      }
+      const saved=JSON.parse(cached);
+      for(const j of JOURS)for(const m of MOMENTS){const s=saved[j]?.[m];if(s){const inP=(proposals[j]?.[m]||[]).some(p=>String(p.id)===String(s.id));if(!inP){proposals[j][m].unshift(s);if(proposals[j][m].length>NB_PROPS)proposals[j][m]=proposals[j][m].slice(0,NB_PROPS);}planning[j][m]=recetteIndex.get(String(s.id))||s;}}
     }catch(e){}
-  } else {
-    // Essayer Supabase
-    await chargerPlanningSupabase();
-  }
-
+  }else{await chargerPlanningSupabase();}
   showLoading(false);
-  const now=new Date(),d=now.getDay();
-  currentJour=d===0?6:d-1;
-  renderDaysNav();
-  renderJour();
-  updateProgress();
+  const now=new Date(),d=now.getDay();currentJour=d===0?6:d-1;
+  renderDaysNav();renderJour();updateProgress();
 }
 
-// ── DÉMO FALLBACK ──
 const DEMO=[
-  {id:'d1',titre:'Avocado toast aux œufs',description:'Un classique du brunch.',personnes:2,ingredients:[{nom:'Pain complet',quantite:2,unite:'tranches'},{nom:'Avocat',quantite:1,unite:''},{nom:'Œufs',quantite:2,unite:''}],etapes:[{instruction:'Toaster le pain.',timer_secondes:120},{instruction:'Écraser l\'avocat.',timer_secondes:0},{instruction:'Cuire les œufs.',timer_secondes:300}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Œufs','Gluten']},metrics:{prep_time:5,cook_time:8,total_time:13},ux:{emoji:'🥑',mood:'frais'}},
-  {id:'d2',titre:'Porridge aux fruits rouges',description:'Doux et réconfortant.',personnes:2,ingredients:[{nom:'Flocons d\'avoine',quantite:80,unite:'g'},{nom:'Lait',quantite:300,unite:'ml'},{nom:'Fruits rouges',quantite:100,unite:'g'}],etapes:[{instruction:'Chauffer le lait avec les flocons.',timer_secondes:300},{instruction:'Servir avec les fruits.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Gluten','Lactose']},metrics:{prep_time:2,cook_time:7,total_time:9},ux:{emoji:'🍓',mood:'doux'}},
-  {id:'d3',titre:'Pancakes moelleux',description:'Épais et dorés.',personnes:4,ingredients:[{nom:'Farine',quantite:200,unite:'g'},{nom:'Lait',quantite:250,unite:'ml'},{nom:'Œufs',quantite:2,unite:''}],etapes:[{instruction:'Mélanger les ingrédients.',timer_secondes:0},{instruction:'Cuire 2 min par côté.',timer_secondes:240}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Gluten','Lactose','Œufs']},metrics:{prep_time:5,cook_time:20,total_time:25},ux:{emoji:'🥞',mood:'gourmand'}},
-  {id:'d4',titre:'Smoothie bowl mangue',description:'Tropical et vitaminé.',personnes:2,ingredients:[{nom:'Mangue',quantite:1,unite:''},{nom:'Banane',quantite:2,unite:''},{nom:'Lait de coco',quantite:100,unite:'ml'}],etapes:[{instruction:'Mixer.',timer_secondes:0},{instruction:'Garnir.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:[]},metrics:{prep_time:5,cook_time:0,total_time:5},ux:{emoji:'🥭',mood:'frais'}},
-  {id:'d5',titre:'Omelette aux herbes',description:'Légère et rapide.',personnes:2,ingredients:[{nom:'Œufs',quantite:4,unite:''},{nom:'Persil',quantite:1,unite:'bouquet'}],etapes:[{instruction:'Battre les œufs.',timer_secondes:0},{instruction:'Cuire 3 min.',timer_secondes:180}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner','Dîner'],allergenes:['Œufs']},metrics:{prep_time:3,cook_time:5,total_time:8},ux:{emoji:'🍳',mood:'léger'}},
-  {id:'d6',titre:'Salade niçoise',description:'Fraîche et complète.',personnes:2,ingredients:[{nom:'Thon',quantite:160,unite:'g'},{nom:'Tomates',quantite:200,unite:'g'}],etapes:[{instruction:'Cuire les œufs.',timer_secondes:600},{instruction:'Assembler.',timer_secondes:0}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Facile',moments:['Déjeuner'],allergenes:['Œufs','Poisson']},metrics:{prep_time:15,cook_time:10,total_time:25},ux:{emoji:'🥗',mood:'frais'}},
-  {id:'d7',titre:'Pasta al limone',description:'Simple et élégant.',personnes:2,ingredients:[{nom:'Spaghetti',quantite:200,unite:'g'},{nom:'Citron',quantite:1,unite:''}],etapes:[{instruction:'Cuire les pâtes.',timer_secondes:600},{instruction:'Mélanger.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Déjeuner','Dîner'],allergenes:['Gluten','Lactose']},metrics:{prep_time:5,cook_time:12,total_time:17},ux:{emoji:'🍋',mood:'frais'}},
-  {id:'d8',titre:'Buddha bowl',description:'Coloré et équilibré.',personnes:2,ingredients:[{nom:'Quinoa',quantite:150,unite:'g'},{nom:'Avocat',quantite:1,unite:''}],etapes:[{instruction:'Cuire le quinoa.',timer_secondes:900},{instruction:'Assembler.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Déjeuner'],allergenes:[]},metrics:{prep_time:15,cook_time:20,total_time:35},ux:{emoji:'🥙',mood:'frais'}},
-  {id:'d9',titre:'Soupe de lentilles',description:'Veloutée et réconfortante.',personnes:4,ingredients:[{nom:'Lentilles corail',quantite:200,unite:'g'},{nom:'Bouillon',quantite:1,unite:'L'}],etapes:[{instruction:'Cuire 25 min.',timer_secondes:1500},{instruction:'Mixer.',timer_secondes:0}],tags:{saison:['Automne','Hiver'],budget:'€',difficulte:'Facile',moments:['Déjeuner','Dîner'],allergenes:[]},metrics:{prep_time:10,cook_time:25,total_time:35},ux:{emoji:'🍲',mood:'réconfortant'}},
-  {id:'d10',titre:'Poulet rôti',description:'Le classique.',personnes:4,ingredients:[{nom:'Poulet',quantite:1.5,unite:'kg'}],etapes:[{instruction:'Rôtir 1h15.',timer_secondes:4500}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Dîner'],allergenes:[]},metrics:{prep_time:10,cook_time:75,total_time:85},ux:{emoji:'🍗',mood:'convivial'}},
-  {id:'d11',titre:'Risotto aux champignons',description:'Crémeux et réconfortant.',personnes:2,ingredients:[{nom:'Riz arborio',quantite:180,unite:'g'},{nom:'Champignons',quantite:300,unite:'g'}],etapes:[{instruction:'Cuire 20 min en ajoutant le bouillon.',timer_secondes:1200}],tags:{saison:['Automne','Hiver'],budget:'€€',difficulte:'Moyenne',moments:['Dîner'],allergenes:['Lactose']},metrics:{prep_time:10,cook_time:25,total_time:35},ux:{emoji:'🍄',mood:'réconfortant'}},
-  {id:'d12',titre:'Gratin dauphinois',description:'Fondant et doré.',personnes:4,ingredients:[{nom:'Pommes de terre',quantite:1,unite:'kg'},{nom:'Crème fraîche',quantite:400,unite:'ml'}],etapes:[{instruction:'Cuire 1h à 180°C.',timer_secondes:3600}],tags:{saison:['Automne','Hiver'],budget:'€',difficulte:'Facile',moments:['Dîner'],allergenes:['Lactose']},metrics:{prep_time:20,cook_time:60,total_time:80},ux:{emoji:'🥔',mood:'réconfortant'}},
-  {id:'d13',titre:'Tartines saumon fumé',description:'Élégant et rapide.',personnes:2,ingredients:[{nom:'Saumon fumé',quantite:120,unite:'g'},{nom:'Pain de seigle',quantite:4,unite:'tranches'}],etapes:[{instruction:'Garnir et servir.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€€€',difficulte:'Facile',moments:['Déjeuner'],allergenes:['Gluten','Poisson']},metrics:{prep_time:5,cook_time:0,total_time:5},ux:{emoji:'🐟',mood:'frais'}},
-  {id:'d14',titre:'Velouté potimarron',description:'Doux et orangé.',personnes:4,ingredients:[{nom:'Potimarron',quantite:800,unite:'g'},{nom:'Bouillon',quantite:700,unite:'ml'}],etapes:[{instruction:'Cuire 25 min.',timer_secondes:1500},{instruction:'Mixer.',timer_secondes:0}],tags:{saison:['Automne'],budget:'€',difficulte:'Facile',moments:['Dîner'],allergenes:[]},metrics:{prep_time:15,cook_time:25,total_time:40},ux:{emoji:'🎃',mood:'réconfortant'}},
-  {id:'d15',titre:'Tarte aux légumes',description:'Dorée et garnie.',personnes:4,ingredients:[{nom:'Pâte brisée',quantite:1,unite:''},{nom:'Courgettes',quantite:2,unite:''}],etapes:[{instruction:'Garnir et cuire 30 min.',timer_secondes:1800}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Moyenne',moments:['Déjeuner','Dîner'],allergenes:['Gluten','Lactose','Œufs']},metrics:{prep_time:20,cook_time:40,total_time:60},ux:{emoji:'🥧',mood:'convivial'}}
+  {id:'d1',titre:'Avocado toast aux œufs',personnes:2,ingredients:[{nom:'Pain complet',quantite:2,unite:'tranches'},{nom:'Avocat',quantite:1,unite:''},{nom:'Œufs',quantite:2,unite:''}],etapes:[{instruction:'Toaster le pain.',timer_secondes:120},{instruction:'Écraser l\'avocat.',timer_secondes:0},{instruction:'Cuire les œufs.',timer_secondes:300}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Œufs','Gluten']},metrics:{prep_time:5,cook_time:8,total_time:13},ux:{emoji:'🥑',mood:'frais'}},
+  {id:'d2',titre:'Porridge aux fruits rouges',personnes:2,ingredients:[{nom:'Flocons d\'avoine',quantite:80,unite:'g'},{nom:'Lait',quantite:300,unite:'ml'}],etapes:[{instruction:'Chauffer.',timer_secondes:300}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Gluten']},metrics:{prep_time:2,cook_time:7,total_time:9},ux:{emoji:'🍓',mood:'doux'}},
+  {id:'d3',titre:'Pancakes moelleux',personnes:4,ingredients:[{nom:'Farine',quantite:200,unite:'g'}],etapes:[{instruction:'Cuire.',timer_secondes:240}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Gluten']},metrics:{prep_time:5,cook_time:20,total_time:25},ux:{emoji:'🥞',mood:'gourmand'}},
+  {id:'d6',titre:'Salade niçoise',personnes:2,ingredients:[{nom:'Thon',quantite:160,unite:'g'}],etapes:[{instruction:'Assembler.',timer_secondes:0}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Facile',moments:['Déjeuner'],allergenes:['Poisson']},metrics:{prep_time:15,cook_time:10,total_time:25},ux:{emoji:'🥗',mood:'frais'}},
+  {id:'d7',titre:'Pasta al limone',personnes:2,ingredients:[{nom:'Spaghetti',quantite:200,unite:'g'}],etapes:[{instruction:'Cuire les pâtes.',timer_secondes:600}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Déjeuner','Dîner'],allergenes:['Gluten']},metrics:{prep_time:5,cook_time:12,total_time:17},ux:{emoji:'🍋',mood:'frais'}},
+  {id:'d9',titre:'Soupe de lentilles',personnes:4,ingredients:[{nom:'Lentilles',quantite:200,unite:'g'}],etapes:[{instruction:'Cuire 25 min.',timer_secondes:1500}],tags:{saison:['Automne','Hiver'],budget:'€',difficulte:'Facile',moments:['Déjeuner','Dîner'],allergenes:[]},metrics:{prep_time:10,cook_time:25,total_time:35},ux:{emoji:'🍲',mood:'réconfortant'}},
+  {id:'d10',titre:'Poulet rôti',personnes:4,ingredients:[{nom:'Poulet',quantite:1.5,unite:'kg'}],etapes:[{instruction:'Rôtir 1h15.',timer_secondes:4500}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Dîner'],allergenes:[]},metrics:{prep_time:10,cook_time:75,total_time:85},ux:{emoji:'🍗',mood:'convivial'}},
+  {id:'d11',titre:'Risotto aux champignons',personnes:2,ingredients:[{nom:'Riz arborio',quantite:180,unite:'g'}],etapes:[{instruction:'Cuire 20 min.',timer_secondes:1200}],tags:{saison:['Automne','Hiver'],budget:'€€',difficulte:'Moyenne',moments:['Dîner'],allergenes:['Lactose']},metrics:{prep_time:10,cook_time:25,total_time:35},ux:{emoji:'🍄',mood:'réconfortant'}}
 ];
-
 init();
 </script>
 </body>

@@ -1,235 +1,237 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
-  <title>Clara — Recette</title>
-  <script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;type=content-script&amp;dmn=api.netlify.com&amp;url=https%3A%2F%2Fapi.netlify.com%2Fapi%2Fv1%2Fdeploys%2F69e74ec219d4250008911cdd%2Ffiles%2Frecette.html&amp;app=chrome.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-dnt"></script><script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    :root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#FFFFFF;--nav-h:68px;--radius:14px;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:calc(var(--nav-h)+24px);}
-    .page{max-width:480px;margin:0 auto;padding:0 16px;}
-    .hero{background:var(--teal);padding:52px 20px 28px;position:relative;overflow:hidden;}
-    .hero.has-image{padding:0;min-height:240px;display:flex;flex-direction:column;justify-content:flex-end;}
-    .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.65) 100%);}
-    .hero.has-image .hero-emoji{display:none;}
-    .hero.has-image .hero-titre{color:white;text-shadow:0 1px 4px rgba(0,0,0,.4);}
-    .hero.has-image .back-btn{background:rgba(0,0,0,.25);backdrop-filter:blur(4px);}
-    .hero.has-image .hero-content{position:relative;z-index:2;padding:20px 20px 28px;}
-    .hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.07);}
-    .back-btn{position:absolute;top:16px;left:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;}
-    .hero-emoji{font-size:60px;display:block;margin-bottom:12px;position:relative;z-index:1;}
-    .hero-titre{font-family:'Lora',serif;font-size:22px;font-weight:600;color:white;line-height:1.25;margin-bottom:12px;position:relative;z-index:1;}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
-    .hero-badge{padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:12px;font-weight:500;}
-    .section{background:var(--white);border-radius:var(--radius);padding:20px;margin-bottom:12px;margin-top:12px;}
-    .section-title{font-family:'Lora',serif;font-size:15px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-    .convives-row{display:flex;align-items:center;gap:12px;}
-    .conv-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--cream);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-    .conv-btn:hover{border-color:var(--teal);background:var(--teal-light);}
-    .conv-num{font-size:18px;font-weight:700;color:var(--teal);min-width:32px;text-align:center;}
-    .conv-label{font-size:13px;color:var(--text-muted);}
-    .ing-list{display:flex;flex-direction:column;gap:8px;}
-    .ing-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--cream);border-radius:10px;}
-    .ing-qty{font-size:13px;font-weight:700;color:var(--teal);min-width:52px;text-align:right;flex-shrink:0;}
-    .ing-unite{font-size:11px;color:var(--text-muted);min-width:30px;flex-shrink:0;}
-    .ing-nom{font-size:13px;color:var(--text);flex:1;}
-    .etape-list{display:flex;flex-direction:column;gap:14px;}
-    .etape-item{display:flex;gap:12px;align-items:flex-start;}
-    .etape-num{width:28px;height:28px;border-radius:50%;background:var(--teal);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
-    .etape-content{flex:1;}
-    .etape-text{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:8px;}
-    .timer-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;background:var(--teal-light);border:1.5px solid rgba(29,158,117,.25);color:var(--teal);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
-    .timer-btn:hover{background:var(--teal);color:white;border-color:var(--teal);}
-    .desc-text{font-size:14px;color:var(--text-muted);line-height:1.6;}
-    .mention{background:var(--cream);border-radius:10px;padding:12px 14px;margin-top:12px;margin-bottom:4px;}
-    .mention p{font-size:11px;color:var(--text-muted);line-height:1.5;}
-    .mention strong{color:var(--text);}
-    /* Timer modal */
-    .timer-overlay{position:fixed;inset:0;background:rgba(44,40,32,.6);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
-    .timer-overlay.visible{opacity:1;pointer-events:all;}
-    .timer-card{background:var(--white);border-radius:24px 24px 0 0;padding:32px 24px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .35s cubic-bezier(.25,.8,.25,1);}
-    .timer-overlay.visible .timer-card{transform:translateY(0);}
-    .timer-label{font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;}
-    .timer-display{font-family:'Lora',serif;font-size:72px;font-weight:600;color:var(--text);text-align:center;letter-spacing:-2px;margin-bottom:6px;transition:color .3s;}
-    .timer-display.urgent{color:var(--coral);}
-    .timer-step{font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:20px;line-height:1.4;}
-    .timer-progress{height:4px;background:var(--border);border-radius:99px;margin-bottom:24px;overflow:hidden;}
-    .timer-bar{height:100%;background:var(--teal);border-radius:99px;transition:width .9s linear,background .3s;}
-    .timer-controls{display:flex;gap:10px;}
-    .t-btn{flex:1;padding:15px;border-radius:var(--radius);border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;}
-    .t-btn.p{background:var(--teal);color:white;}
-    .t-btn.s{background:var(--cream);color:var(--text);}
-    .t-btn:active{transform:scale(.97);}
-    /* Nav */
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 8px;z-index:100;}
-    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px;cursor:pointer;border-radius:10px;transition:all .2s;border:none;background:none;}
-    .nav-icon{font-size:20px;line-height:1;}
-    .nav-label{font-size:9px;font-weight:600;color:var(--text-muted);}
-    .nav-item.active .nav-label{color:var(--teal);}
-    .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:0;}
-    .nav-item.active .nav-dot{opacity:1;}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
-    .section{animation:fadeUp .3s ease both;}
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>Clara — Recette</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#FFFFFF;--r:20px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:100px;}
+
+/* ── HERO ── */
+.hero{background:var(--teal);min-height:260px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--teal-dark) 0%,var(--teal) 60%,#22b584 100%);}
+.hero-deco{position:absolute;top:-50px;right:-50px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06);}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,rgba(0,0,0,.6) 100%);}
+.hero-emoji-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-size:80px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15));z-index:1;}
+.hero-content{position:relative;z-index:2;padding:20px 20px 24px;}
+.hero-title{font-family:'Lora',serif;font-size:22px;font-weight:600;color:white;line-height:1.2;margin-bottom:10px;text-shadow:0 1px 6px rgba(0,0,0,.25);}
+.hero-badges{display:flex;gap:7px;flex-wrap:wrap;}
+.hbadge{padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.18);backdrop-filter:blur(4px);color:rgba(255,255,255,.92);font-size:12px;font-weight:500;}
+.back-btn{position:absolute;top:52px;left:16px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.25);backdrop-filter:blur(8px);border:none;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;}
+
+/* ── CARDS ── */
+.page{max-width:480px;margin:0 auto;padding:12px 16px 0;}
+.card{background:var(--white);border-radius:var(--r);padding:20px;margin-bottom:10px;box-shadow:0 2px 12px rgba(44,40,32,.06);}
+.card-title{font-family:'Lora',serif;font-size:15px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+
+/* CONVIVES */
+.conv-row{display:flex;align-items:center;gap:14px;}
+.conv-btn{width:38px;height:38px;border-radius:99px;border:1.5px solid var(--border);background:var(--cream);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.conv-btn:hover{border-color:var(--teal);background:var(--teal-light);}
+.conv-num{font-family:'Lora',serif;font-size:22px;font-weight:600;color:var(--teal);min-width:36px;text-align:center;}
+.conv-label{font-size:13px;color:var(--text-muted);}
+
+/* INGREDIENTS */
+.ing-list{display:flex;flex-direction:column;gap:8px;}
+.ing-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--cream);border-radius:12px;}
+.ing-qty{font-size:13px;font-weight:700;color:var(--teal);min-width:54px;text-align:right;flex-shrink:0;}
+.ing-unite{font-size:11px;color:var(--text-muted);min-width:28px;flex-shrink:0;}
+.ing-nom{font-size:13px;color:var(--text);flex:1;}
+
+/* ÉTAPES */
+.step-list{display:flex;flex-direction:column;gap:14px;}
+.step-item{display:flex;gap:12px;align-items:flex-start;}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--teal);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-body{flex:1;}
+.step-text{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:8px;}
+.timer-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;background:var(--teal-light);border:1.5px solid rgba(29,158,117,.25);color:var(--teal);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.timer-btn:hover{background:var(--teal);color:white;}
+
+/* DESCRIPTION */
+.desc-text{font-size:14px;color:var(--text-muted);line-height:1.65;}
+
+/* TIMER MODAL */
+.timer-overlay{position:fixed;inset:0;background:rgba(44,40,32,.6);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.timer-overlay.visible{opacity:1;pointer-events:all;}
+.timer-card{background:var(--white);border-radius:28px 28px 0 0;padding:32px 24px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .35s cubic-bezier(.25,.8,.25,1);}
+.timer-overlay.visible .timer-card{transform:translateY(0);}
+.tl{font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;}
+.td{font-family:'Lora',serif;font-size:72px;font-weight:600;color:var(--text);text-align:center;letter-spacing:-2px;margin-bottom:6px;transition:color .3s;}
+.td.urgent{color:var(--coral);}
+.ts{font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:20px;line-height:1.4;}
+.tp{height:4px;background:var(--border);border-radius:99px;margin-bottom:24px;overflow:hidden;}
+.tpb{height:100%;background:var(--teal);border-radius:99px;transition:width .9s linear,background .3s;}
+.tc{display:flex;gap:10px;}
+.tb{flex:1;padding:15px;border-radius:var(--r);border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;}
+.tb.p{background:var(--teal);color:white;}
+.tb.s{background:var(--cream);color:var(--text);}
+
+/* NAV */
+.fnav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-radius:99px;padding:10px 8px;display:flex;gap:2px;box-shadow:0 8px 40px rgba(44,40,32,.20);z-index:100;border:1px solid rgba(229,221,213,.5);}
+.fnb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 14px;border:none;border-radius:99px;background:transparent;cursor:pointer;transition:all .2s;min-width:52px;}
+.fi{font-size:20px;line-height:1;}
+.fl{font-size:9px;font-weight:600;color:var(--text-muted);}
+.fnb.active{background:var(--teal);}
+.fnb.active .fl{color:rgba(255,255,255,.9);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.card{animation:fadeUp .3s ease both;}
+</style>
 </head>
 <body>
+
+<!-- TIMER MODAL -->
 <div class="timer-overlay" id="timerOverlay">
   <div class="timer-card">
-    <div class="timer-label">Minuteur Clara</div>
-    <div class="timer-display" id="tDisp">00:00</div>
-    <div class="timer-step" id="tStep"></div>
-    <div class="timer-progress"><div class="timer-bar" id="tBar" style="width:100%"></div></div>
-    <div class="timer-controls">
-      <button class="t-btn s" onclick="closeTimer()">✕ Fermer</button>
-      <button class="t-btn p" id="tPauseBtn" onclick="togglePause()">⏸ Pause</button>
+    <div class="tl">Minuteur Clara</div>
+    <div class="td" id="tDisp">00:00</div>
+    <div class="ts" id="tStep"></div>
+    <div class="tp"><div class="tpb" id="tBar" style="width:100%"></div></div>
+    <div class="tc">
+      <button class="tb s" onclick="closeTimer()">✕ Fermer</button>
+      <button class="tb p" id="tPauseBtn" onclick="togglePause()">⏸ Pause</button>
     </div>
   </div>
 </div>
+
+<!-- HERO -->
 <div class="hero" id="heroSection">
+  <div class="hero-bg"></div>
+  <div class="hero-deco"></div>
+  <img class="hero-img" id="heroImg" src="" alt="" style="display:none" onerror="this.style.display='none';document.getElementById('heroOverlay').style.display='none';document.getElementById('heroEmojiBig').style.display='block'"/>
+  <div class="hero-overlay" id="heroOverlay" style="display:none"></div>
+  <span class="hero-emoji-big" id="heroEmojiBig">🍽️</span>
   <button class="back-btn" onclick="history.back()">←</button>
-  <img class="hero-img" id="heroImg" src="" alt="" style="display:none;" onerror="this.style.display='none';document.getElementById('heroSection').classList.remove('has-image');document.getElementById('heroEmoji').style.display='block'"/>
-  <div class="hero-overlay" id="heroOverlay" style="display:none;"></div>
-  <span class="hero-emoji" id="heroEmoji">🍽️</span>
-  <div class="hero-content" id="heroContent">
-    <div class="hero-titre" id="heroTitre">…</div>
+  <div class="hero-content">
+    <div class="hero-title" id="heroTitle">…</div>
     <div class="hero-badges" id="heroBadges"></div>
   </div>
 </div>
+
 <div class="page">
-  <div class="section" id="descSection" style="display:none">
-    <div class="section-title">💬 À propos</div>
+  <div class="card" id="descCard" style="display:none">
+    <div class="card-title">💬 À propos</div>
     <div class="desc-text" id="descText"></div>
   </div>
-  <div class="section">
-    <div class="section-title">👥 Convives</div>
-    <div class="convives-row">
+
+  <div class="card">
+    <div class="card-title">👥 Convives</div>
+    <div class="conv-row">
       <button class="conv-btn" onclick="changeConv(-1)">−</button>
       <div class="conv-num" id="convNum">2</div>
       <button class="conv-btn" onclick="changeConv(+1)">＋</button>
-      <div class="conv-label">personnes (base&nbsp;: <span id="convBase">4</span>)</div>
+      <div class="conv-label">personnes<br><span style="color:var(--teal-dark)">base : <span id="convBase">4</span></span></div>
     </div>
   </div>
-  <div class="section">
-    <div class="section-title">🛒 Ingrédients</div>
+
+  <div class="card">
+    <div class="card-title">🛒 Ingrédients</div>
     <div class="ing-list" id="ingList"></div>
   </div>
-  <div class="section">
-    <div class="section-title">👨‍🍳 Préparation</div>
-    <div class="etape-list" id="etapeList"></div>
-  </div>
-  <div class="mention">
-    <p><strong>Clara suggère, vous décidez.</strong><br/>[Ensemble] est un service de bien-être destiné à des personnes en bonne santé. Ces informations ne constituent pas un avis médical ou diététique.</p>
+
+  <div class="card">
+    <div class="card-title">👨‍🍳 Préparation</div>
+    <div class="step-list" id="stepList"></div>
   </div>
 </div>
-<nav class="bottom-nav">
-  <button class="nav-item" onclick="goTo('index.html')"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div><div class="nav-dot"></div></button>
-  <button class="nav-item active" onclick="goTo('semainier.html')"><div class="nav-icon">📅</div><div class="nav-label">Semainier</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('courses.html')"><div class="nav-icon">🛒</div><div class="nav-label">Courses</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('inventaire.html')"><div class="nav-icon">📦</div><div class="nav-label">Inventaire</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('profil.html')"><div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-dot"></div></button>
+
+<nav class="fnav">
+  <button class="fnb" onclick="goTo('semainier.html')"><div class="fi">📅</div><div class="fl">Semaine</div></button>
+  <button class="fnb" onclick="goTo('livre.html')"><div class="fi">📖</div><div class="fl">Recettes</div></button>
+  <button class="fnb" onclick="goTo('courses.html')"><div class="fi">🛒</div><div class="fl">Courses</div></button>
+  <button class="fnb" onclick="goTo('inventaire.html')"><div class="fi">📦</div><div class="fl">Stock</div></button>
+  <button class="fnb" onclick="goTo('profil.html')"><div class="fi">👤</div><div class="fl">Profil</div></button>
 </nav>
+
 <script>
-let recette=null,nbP=2,baseP=4,timerIv=null,timerTotal=0,timerRem=0,paused=false;
+let recette=null,nbP=2,baseP=4,timerInterval=null,timerPaused=false,timerRemaining=0,timerTotal=0;
 function goTo(u){window.location.href=u;}
+
 function init(){
-  try{
-    const raw=sessionStorage.getItem('clara_recette_courante');
-    if(!raw){history.back();return;}
-    recette=JSON.parse(raw);
-    nbP=parseInt(sessionStorage.getItem('clara_nb_personnes'))||2;
-    baseP=recette.personnes||4;
-    document.getElementById('convNum').textContent=nbP;
-    document.getElementById('convBase').textContent=baseP;
-    renderHero();renderDesc();renderIng();renderEtapes();
-  }catch(e){history.back();}
+  try{const r=sessionStorage.getItem('clara_recette_courante');if(!r){history.back();return;}recette=JSON.parse(r);}catch(e){history.back();return;}
+  nbP=parseInt(sessionStorage.getItem('clara_nb_personnes'))||2;
+  baseP=recette.personnes||4;
+  document.getElementById('convNum').textContent=nbP;
+  document.getElementById('convBase').textContent=baseP;
+  renderHero();renderDesc();renderIng();renderSteps();
 }
+
 function renderHero(){
   const t=recette.tags||{},m=recette.metrics||{};
   document.title='Clara — '+recette.titre;
-  document.getElementById('heroEmoji').textContent=recette.ux?.emoji||'🍽️';
-  document.getElementById('heroTitre').textContent=recette.titre;
+  document.getElementById('heroTitle').textContent=recette.titre;
   const b=[];
   if(m.total_time)b.push('⏱ '+m.total_time+' min');
   if(t.budget)b.push(t.budget);
   if(t.difficulte)b.push(t.difficulte);
-  const s=t.saison||[];
-  if(s.length&&!s.includes('Toutes'))b.push(s.filter(x=>!x.includes('Déjeuner')).join(' · ')||'');
-  document.getElementById('heroBadges').innerHTML=b.filter(Boolean).map(x=>'<span class="hero-badge">'+x+'</span>').join('');
-  // Image hero si disponible
+  const s=t.saison||[];if(s.length&&!s.includes('Toutes'))b.push(s.join(' · '));
+  document.getElementById('heroBadges').innerHTML=b.filter(Boolean).map(x=>`<span class="hbadge">${x}</span>`).join('');
   if(recette.url_image){
     const img=document.getElementById('heroImg');
-    const overlay=document.getElementById('heroOverlay');
-    img.src=recette.url_image;
-    img.alt=recette.titre;
-    img.style.display='block';
-    overlay.style.display='block';
-    document.getElementById('heroSection').classList.add('has-image');
-    document.getElementById('heroEmoji').style.display='none';
+    img.src=recette.url_image;img.alt=recette.titre;img.style.display='block';
+    document.getElementById('heroOverlay').style.display='block';
+    document.getElementById('heroEmojiBig').style.display='none';
+  }else{
+    document.getElementById('heroEmojiBig').textContent=recette.ux?.emoji||'🍽️';
   }
 }
+
 function renderDesc(){
   if(!recette.description)return;
-  document.getElementById('descSection').style.display='block';
+  document.getElementById('descCard').style.display='block';
   document.getElementById('descText').textContent=recette.description;
 }
+
 function changeConv(d){nbP=Math.max(1,Math.min(20,nbP+d));document.getElementById('convNum').textContent=nbP;renderIng();}
+
 function renderIng(){
-  const ings=recette.ingredients||[];
-  const ratio=nbP/baseP;
+  const ings=recette.ingredients||[];const ratio=nbP/baseP;
   document.getElementById('ingList').innerHTML=ings.map(ing=>{
-    const q=ing.quantite*ratio;
-    const qs=q===0?'':(q%1===0?q.toFixed(0):(q<0.1?q.toFixed(2):parseFloat(q.toFixed(1)).toString()));
-    return'<div class="ing-item"><div class="ing-qty">'+qs+'</div><div class="ing-unite">'+(ing.unite||'')+'</div><div class="ing-nom">'+hesc(ing.nom)+'</div></div>';
-  }).join('')||'<p style="color:var(--text-muted);font-size:13px">Non renseignés.</p>';
+    const q=ing.quantite*ratio;const qs=q%1===0?q.toFixed(0):parseFloat(q.toFixed(1)).toString();
+    return`<div class="ing-item"><div class="ing-qty">${qs}</div><div class="ing-unite">${ing.unite||''}</div><div class="ing-nom">${ing.nom}</div></div>`;
+  }).join('');
 }
-function renderEtapes(){
+
+function renderSteps(){
   const etapes=recette.etapes||[];
-  document.getElementById('etapeList').innerHTML=etapes.map((e,i)=>{
-    const tb=e.timer_secondes>0?'<button class="timer-btn" onclick="startTimer('+e.timer_secondes+',\''+jesc(e.instruction.substring(0,55))+'…\')">⏱ '+fmt(e.timer_secondes)+'</button>':'';
-    return'<div class="etape-item"><div class="etape-num">'+(i+1)+'</div><div class="etape-content"><div class="etape-text">'+hesc(e.instruction)+'</div>'+tb+'</div></div>';
-  }).join('')||'<p style="color:var(--text-muted);font-size:13px">Non renseignées.</p>';
+  document.getElementById('stepList').innerHTML=etapes.map((e,i)=>{
+    const hasTimer=e.timer_secondes>0;
+    const mins=Math.floor(e.timer_secondes/60),secs=e.timer_secondes%60;
+    const tLabel=(mins>0?mins+'min ':'')+(secs>0?secs+'s':'');
+    return`<div class="step-item">
+      <div class="step-num">${i+1}</div>
+      <div class="step-body">
+        <div class="step-text">${e.instruction}</div>
+        ${hasTimer?`<button class="timer-btn" onclick="startTimer(${e.timer_secondes},'Étape ${i+1}')">⏱ ${tLabel}</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
 }
-function startTimer(sec,label){
-  if(timerIv)clearInterval(timerIv);
-  timerTotal=sec;timerRem=sec;paused=false;
+
+// TIMER
+function startTimer(s,label){
+  clearInterval(timerInterval);timerRemaining=s;timerTotal=s;timerPaused=false;
   document.getElementById('tStep').textContent=label;
   document.getElementById('tPauseBtn').textContent='⏸ Pause';
-  document.getElementById('tPauseBtn').onclick=togglePause;
-  updTimer();
   document.getElementById('timerOverlay').classList.add('visible');
-  timerIv=setInterval(tick,1000);
+  tickTimer();timerInterval=setInterval(tickTimer,1000);
 }
-function tick(){
-  if(paused)return;
-  timerRem--;
-  updTimer();
-  if(timerRem<=0){
-    clearInterval(timerIv);timerIv=null;
-    document.getElementById('tDisp').textContent='✓ Terminé !';
-    document.getElementById('tBar').style.width='0%';
-    document.getElementById('tDisp').classList.remove('urgent');
-    if(navigator.vibrate)navigator.vibrate([300,100,300]);
-    document.getElementById('tPauseBtn').textContent='✓ OK';
-    document.getElementById('tPauseBtn').onclick=closeTimer;
-  }
+function tickTimer(){
+  if(timerPaused)return;
+  const m=Math.floor(timerRemaining/60),s=timerRemaining%60;
+  document.getElementById('tDisp').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  document.getElementById('tDisp').className='td'+(timerRemaining<=10?' urgent':'');
+  const pct=(timerRemaining/timerTotal)*100;
+  document.getElementById('tBar').style.width=pct+'%';
+  document.getElementById('tBar').style.background=timerRemaining<=10?'var(--coral)':'var(--teal)';
+  if(timerRemaining===0){clearInterval(timerInterval);document.getElementById('tPauseBtn').textContent='✓ Terminé';return;}
+  timerRemaining--;
 }
-function updTimer(){
-  const d=document.getElementById('tDisp');
-  d.textContent=fmt(timerRem);
-  d.classList.toggle('urgent',timerRem<=30&&timerRem>0);
-  const pct=(timerRem/timerTotal)*100;
-  const bar=document.getElementById('tBar');
-  bar.style.width=pct+'%';
-  bar.style.background=timerRem<=30?'var(--coral)':'var(--teal)';
-}
-function togglePause(){paused=!paused;document.getElementById('tPauseBtn').textContent=paused?'▶ Reprendre':'⏸ Pause';}
-function closeTimer(){if(timerIv){clearInterval(timerIv);timerIv=null;}document.getElementById('timerOverlay').classList.remove('visible');}
-function fmt(s){const m=Math.floor(Math.abs(s)/60),r=Math.abs(s)%60;return String(m).padStart(2,'0')+':'+String(r).padStart(2,'0');}
-function hesc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function jesc(s){return String(s).replace(/'/g,"\\'").replace(/\n/g,' ');}
-document.getElementById('timerOverlay').addEventListener('click',function(e){if(e.target===this)closeTimer();});
+function togglePause(){timerPaused=!timerPaused;document.getElementById('tPauseBtn').textContent=timerPaused?'▶ Reprendre':'⏸ Pause';}
+function closeTimer(){clearInterval(timerInterval);document.getElementById('timerOverlay').classList.remove('visible');}
+
 init();
 </script>
 </body>

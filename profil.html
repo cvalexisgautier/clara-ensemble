@@ -1,223 +1,144 @@
+<!-- This file contains profil.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
-  <title>Clara — Mon Profil</title>
-  <script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;type=content-script&amp;dmn=api.netlify.com&amp;url=https%3A%2F%2Fapi.netlify.com%2Fapi%2Fv1%2Fdeploys%2F69e74ec219d4250008911cdd%2Ffiles%2Fprofil.html&amp;app=chrome.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-dnt"></script><script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    :root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--coral-light:#FDF0EB;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#FFFFFF;--nav-h:68px;--radius:14px;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:calc(var(--nav-h)+24px);}
-    .page{max-width:480px;margin:0 auto;padding:0 16px;}
-    .hero{background:var(--teal);padding:48px 24px 32px;margin-bottom:0;position:relative;overflow:hidden;}
-    .hero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07);}
-    .hero-avatar{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:14px;position:relative;z-index:1;}
-    .hero-name{font-family:'Lora',serif;font-size:24px;font-weight:600;color:white;margin-bottom:4px;position:relative;z-index:1;}
-    .hero-sub{font-size:13px;color:rgba(255,255,255,.75);position:relative;z-index:1;}
-    .section{background:var(--white);border-radius:var(--radius);padding:20px;margin-top:12px;}
-    .section-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;}
-    .field-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
-    .field-row:last-child{border-bottom:none;padding-bottom:0;}
-    .field-label{font-size:13px;color:var(--text-muted);}
-    .field-value{font-size:14px;font-weight:600;color:var(--text);}
-    .edit-btn{padding:6px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--cream);font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .2s;}
-    .edit-btn:hover{border-color:var(--teal);color:var(--teal);}
-    /* Allergies */
-    .allergie-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
-    .allergie-tag{padding:4px 10px;border-radius:99px;background:var(--coral-light);color:var(--coral);font-size:12px;font-weight:500;}
-    .allergie-none{font-size:13px;color:var(--text-muted);font-style:italic;}
-    /* Pill selectors */
-    .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
-    .pill{padding:10px 18px;border-radius:99px;background:var(--cream);border:1.5px solid var(--border);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;}
-    .pill.selected{background:var(--teal);border-color:var(--teal);color:white;}
-    /* Budget grid */
-    .budget-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
-    .budget-pill{padding:16px 8px;border-radius:var(--radius);background:var(--cream);border:1.5px solid var(--border);text-align:center;cursor:pointer;transition:all .2s;}
-    .budget-pill.selected{background:var(--teal);border-color:var(--teal);}
-    .budget-euro{font-family:'Lora',serif;font-size:20px;font-weight:600;color:var(--teal);}
-    .budget-pill.selected .budget-euro{color:white;}
-    .budget-label{font-size:11px;color:var(--text-muted);margin-top:4px;}
-    .budget-pill.selected .budget-label{color:rgba(255,255,255,.85);}
-    /* Allergie checkboxes */
-    .allergie-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
-    .allergie-check{padding:9px 14px;border-radius:99px;background:var(--cream);border:1.5px solid var(--border);font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
-    .allergie-check.on{background:var(--coral-light);border-color:var(--coral);color:var(--coral);}
-    /* Save btn */
-    .save-btn{width:100%;padding:16px;border-radius:var(--radius);background:var(--teal);color:white;border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:12px;}
-    .save-btn:hover{background:var(--teal-dark);}
-    .save-btn:active{transform:scale(.98);}
-    .danger-btn{width:100%;padding:14px;border-radius:var(--radius);background:var(--white);color:var(--coral);border:1.5px solid var(--coral);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;margin-top:8px;transition:all .2s;}
-    .danger-btn:hover{background:var(--coral-light);}
-    /* Text input */
-    .text-input{width:100%;padding:14px 16px;border-radius:10px;border:1.5px solid var(--border);font-family:'Lora',serif;font-size:18px;font-weight:500;color:var(--text);background:var(--cream);outline:none;margin-top:8px;transition:border-color .2s;}
-    .text-input:focus{border-color:var(--teal);}
-    /* Nav */
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 8px;z-index:100;}
-    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px;cursor:pointer;border-radius:10px;transition:all .2s;border:none;background:none;}
-    .nav-icon{font-size:20px;line-height:1;}
-    .nav-label{font-size:9px;font-weight:600;color:var(--text-muted);}
-    .nav-item.active .nav-label{color:var(--teal);}
-    .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:0;}
-    .nav-item.active .nav-dot{opacity:1;}
-    .toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:var(--white);padding:10px 18px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap;z-index:300;}
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-    .toast.success{background:var(--teal);}
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>Clara — Profil</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--coral-light:#FDF0EB;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#FFFFFF;--r:20px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:100px;}
+.topbar{background:var(--teal);padding:52px 20px 28px;position:relative;overflow:hidden;}
+.topbar::after{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07);}
+.avatar{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:12px;position:relative;z-index:1;}
+.prof-name{font-family:'Lora',serif;font-size:24px;font-weight:600;color:white;position:relative;z-index:1;}
+.prof-sub{font-size:13px;color:rgba(255,255,255,.72);margin-top:3px;position:relative;z-index:1;}
+.page{padding:12px 20px 0;}
+.card{background:var(--white);border-radius:var(--r);padding:20px;margin-bottom:10px;box-shadow:0 2px 12px rgba(44,40,32,.06);}
+.card-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;}
+.text-input{width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid var(--border);font-family:'Lora',serif;font-size:18px;font-weight:500;color:var(--text);background:var(--cream);outline:none;transition:border-color .2s;}
+.text-input:focus{border-color:var(--teal);}
+.pills{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{padding:10px 18px;border-radius:99px;background:var(--cream);border:1.5px solid var(--border);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;}
+.pill.on{background:var(--teal);border-color:var(--teal);color:white;}
+.budget-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.budget-card{padding:16px 8px;border-radius:16px;background:var(--cream);border:1.5px solid var(--border);text-align:center;cursor:pointer;transition:all .2s;}
+.budget-card.on{background:var(--teal);border-color:var(--teal);}
+.be{font-family:'Lora',serif;font-size:20px;font-weight:600;color:var(--teal);}
+.budget-card.on .be{color:white;}
+.bl{font-size:11px;color:var(--text-muted);margin-top:4px;}
+.budget-card.on .bl{color:rgba(255,255,255,.8);}
+.allergie-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.ac{padding:9px 14px;border-radius:99px;background:var(--cream);border:1.5px solid var(--border);font-size:13px;cursor:pointer;transition:all .2s;}
+.ac.on{background:var(--coral-light);border-color:var(--coral);color:var(--coral);}
+.save-btn{width:100%;padding:16px;border-radius:99px;background:var(--teal);color:white;border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;margin-top:4px;transition:all .2s;}
+.save-btn:hover{background:var(--teal-dark);}
+.danger-btn{width:100%;padding:14px;border-radius:99px;background:var(--white);color:var(--coral);border:1.5px solid var(--coral);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;margin-top:8px;}
+.fnav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-radius:99px;padding:10px 8px;display:flex;gap:2px;box-shadow:0 8px 40px rgba(44,40,32,.20);z-index:100;border:1px solid rgba(229,221,213,.5);}
+.fnb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 14px;border:none;border-radius:99px;background:transparent;cursor:pointer;transition:all .2s;min-width:52px;}
+.fi{font-size:20px;line-height:1;}
+.fl{font-size:9px;font-weight:600;color:var(--text-muted);}
+.fnb.active{background:var(--teal);}
+.fnb.active .fl{color:rgba(255,255,255,.9);}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--text);color:var(--white);padding:10px 20px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;z-index:300;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{background:var(--teal);}
+</style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
-<div class="hero" id="heroSection">
-  <div class="hero-avatar">👤</div>
-  <div class="hero-name" id="heroName">Mon Profil</div>
-  <div class="hero-sub" id="heroSub">Clara [Ensemble]</div>
+<div class="topbar">
+  <div class="avatar">👤</div>
+  <div class="prof-name" id="profName">Mon Profil</div>
+  <div class="prof-sub" id="profSub">Clara [Ensemble]</div>
 </div>
 <div class="page">
-
-  <!-- Prénom -->
-  <div class="section">
-    <div class="section-title">Prénom</div>
-    <input type="text" class="text-input" id="inputPrenom" placeholder="Votre prénom…" maxlength="40" autocapitalize="words"/>
+  <div class="card">
+    <div class="card-label">Prénom</div>
+    <input class="text-input" type="text" id="inputPrenom" placeholder="Votre prénom…" maxlength="40" autocapitalize="words"/>
   </div>
-
-  <!-- Convives -->
-  <div class="section">
-    <div class="section-title">Nombre de convives</div>
-    <div class="pills" id="convivesGrid">
-      <div class="pill" data-val="1" onclick="selConv(this,1)">🧑 1</div>
-      <div class="pill" data-val="2" onclick="selConv(this,2)">👫 2</div>
-      <div class="pill" data-val="3" onclick="selConv(this,3)">👨‍👩‍👦 3</div>
-      <div class="pill" data-val="4" onclick="selConv(this,4)">👨‍👩‍👧‍👦 4</div>
-      <div class="pill" data-val="6" onclick="selConv(this,6)">🎉 6</div>
-      <div class="pill" data-val="8" onclick="selConv(this,8)">🎊 8+</div>
+  <div class="card">
+    <div class="card-label">Nombre de convives</div>
+    <div class="pills">
+      <div class="pill" data-v="1" onclick="selConv(this,1)">🧑 1</div>
+      <div class="pill" data-v="2" onclick="selConv(this,2)">👫 2</div>
+      <div class="pill" data-v="3" onclick="selConv(this,3)">👨‍👩‍👦 3</div>
+      <div class="pill" data-v="4" onclick="selConv(this,4)">👨‍👩‍👧‍👦 4</div>
+      <div class="pill" data-v="6" onclick="selConv(this,6)">🎉 6</div>
+      <div class="pill" data-v="8" onclick="selConv(this,8)">🎊 8+</div>
     </div>
   </div>
-
-  <!-- Budget -->
-  <div class="section">
-    <div class="section-title">Budget cuisine</div>
+  <div class="card">
+    <div class="card-label">Budget cuisine</div>
     <div class="budget-grid">
-      <div class="budget-pill" onclick="selBudget(this,'€')"><div class="budget-euro">€</div><div class="budget-label">Économique</div></div>
-      <div class="budget-pill" onclick="selBudget(this,'€€')"><div class="budget-euro">€€</div><div class="budget-label">Équilibré</div></div>
-      <div class="budget-pill" onclick="selBudget(this,'€€€')"><div class="budget-euro">€€€</div><div class="budget-label">Généreux</div></div>
+      <div class="budget-card" onclick="selBudget(this,'€')"><div class="be">€</div><div class="bl">Économique</div></div>
+      <div class="budget-card" onclick="selBudget(this,'€€')"><div class="be">€€</div><div class="bl">Équilibré</div></div>
+      <div class="budget-card" onclick="selBudget(this,'€€€')"><div class="be">€€€</div><div class="bl">Généreux</div></div>
     </div>
   </div>
-
-  <!-- Niveau -->
-  <div class="section">
-    <div class="section-title">Niveau cuisine</div>
-    <div class="pills" id="niveauGrid">
-      <div class="pill" data-val="Facile" onclick="selNiveau(this,'Facile')">🌱 Facile</div>
-      <div class="pill" data-val="Moyenne" onclick="selNiveau(this,'Moyenne')">🍳 Intermédiaire</div>
-      <div class="pill" data-val="Difficile" onclick="selNiveau(this,'Difficile')">👨‍🍳 Avancé</div>
+  <div class="card">
+    <div class="card-label">Niveau cuisine</div>
+    <div class="pills">
+      <div class="pill" data-v="Facile" onclick="selNiveau(this,'Facile')">🌱 Facile</div>
+      <div class="pill" data-v="Moyenne" onclick="selNiveau(this,'Moyenne')">🍳 Intermédiaire</div>
+      <div class="pill" data-v="Difficile" onclick="selNiveau(this,'Difficile')">👨‍🍳 Avancé</div>
     </div>
   </div>
-
-  <!-- Allergies -->
-  <div class="section">
-    <div class="section-title">Allergies & intolérances</div>
-    <div class="allergie-grid" id="allergieGrid">
-      <div class="allergie-check" data-val="Gluten" onclick="togAllergie(this,'Gluten')">🌾 Gluten</div>
-      <div class="allergie-check" data-val="Lactose" onclick="togAllergie(this,'Lactose')">🥛 Lactose</div>
-      <div class="allergie-check" data-val="Œufs" onclick="togAllergie(this,'Œufs')">🥚 Œufs</div>
-      <div class="allergie-check" data-val="Arachides" onclick="togAllergie(this,'Arachides')">🥜 Arachides</div>
-      <div class="allergie-check" data-val="Fruits à coque" onclick="togAllergie(this,'Fruits à coque')">🌰 Fruits à coque</div>
-      <div class="allergie-check" data-val="Poisson" onclick="togAllergie(this,'Poisson')">🐟 Poisson</div>
-      <div class="allergie-check" data-val="Crustacés" onclick="togAllergie(this,'Crustacés')">🦐 Crustacés</div>
-      <div class="allergie-check" data-val="Soja" onclick="togAllergie(this,'Soja')">🫘 Soja</div>
-      <div class="allergie-check" data-val="Sésame" onclick="togAllergie(this,'Sésame')">✨ Sésame</div>
+  <div class="card">
+    <div class="card-label">Allergies & intolérances</div>
+    <div class="allergie-grid">
+      <div class="ac" data-v="Gluten" onclick="togA(this,'Gluten')">🌾 Gluten</div>
+      <div class="ac" data-v="Lactose" onclick="togA(this,'Lactose')">🥛 Lactose</div>
+      <div class="ac" data-v="Œufs" onclick="togA(this,'Œufs')">🥚 Œufs</div>
+      <div class="ac" data-v="Arachides" onclick="togA(this,'Arachides')">🥜 Arachides</div>
+      <div class="ac" data-v="Fruits à coque" onclick="togA(this,'Fruits à coque')">🌰 Fruits à coque</div>
+      <div class="ac" data-v="Poisson" onclick="togA(this,'Poisson')">🐟 Poisson</div>
+      <div class="ac" data-v="Crustacés" onclick="togA(this,'Crustacés')">🦐 Crustacés</div>
+      <div class="ac" data-v="Soja" onclick="togA(this,'Soja')">🫘 Soja</div>
+      <div class="ac" data-v="Sésame" onclick="togA(this,'Sésame')">✨ Sésame</div>
     </div>
   </div>
-
   <button class="save-btn" onclick="sauvegarder()">✓ Sauvegarder le profil</button>
   <button class="danger-btn" onclick="reinitialiser()">↺ Recommencer l'onboarding</button>
-
 </div>
-<nav class="bottom-nav">
-  <button class="nav-item" onclick="goTo('index.html')"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('semainier.html')"><div class="nav-icon">📅</div><div class="nav-label">Semainier</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('courses.html')"><div class="nav-icon">🛒</div><div class="nav-label">Courses</div><div class="nav-dot"></div></button>
-  <button class="nav-item" onclick="goTo('inventaire.html')"><div class="nav-icon">📦</div><div class="nav-label">Inventaire</div><div class="nav-dot"></div></button>
-  <button class="nav-item active" onclick="goTo('profil.html')"><div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-dot"></div></button>
+<nav class="fnav">
+  <button class="fnb" onclick="goTo('semainier.html')"><div class="fi">📅</div><div class="fl">Semaine</div></button>
+  <button class="fnb" onclick="goTo('livre.html')"><div class="fi">📖</div><div class="fl">Recettes</div></button>
+  <button class="fnb" onclick="goTo('courses.html')"><div class="fi">🛒</div><div class="fl">Courses</div></button>
+  <button class="fnb" onclick="goTo('inventaire.html')"><div class="fi">📦</div><div class="fl">Stock</div></button>
+  <button class="fnb active" onclick="goTo('profil.html')"><div class="fi">👤</div><div class="fl">Profil</div></button>
 </nav>
 <script>
 const SUPABASE_URL='https://vquwacvjfpolqtyxydqw.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxdXdhY3ZqZnBvbHF0eXh5ZHF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTk5NTEsImV4cCI6MjA5MjI5NTk1MX0.-Nqkk96nby_SObo_Vrq-OSiD0zXnke42IbiVtVbyOP4';
-
 let profil={prenom:'',nb_personnes:2,budget:'€€',niveau:'Facile',allergies:[]};
-
 function goTo(u){window.location.href=u;}
-
 function init(){
-  const raw=localStorage.getItem('clara_profile');
-  if(!raw)return;
-  try{profil=JSON.parse(raw);}catch(e){return;}
-  // Pré-remplir
+  const r=localStorage.getItem('clara_profile');if(!r)return;
+  try{profil=JSON.parse(r);}catch(e){return;}
   document.getElementById('inputPrenom').value=profil.prenom||'';
-  document.getElementById('heroName').textContent=profil.prenom||'Mon Profil';
-  document.getElementById('heroSub').textContent=`${profil.nb_personnes||2} pers. · ${profil.budget||'€€'} · ${profil.niveau||'Facile'}`;
-  // Convives
-  document.querySelectorAll('#convivesGrid .pill').forEach(p=>{
-    if(parseInt(p.dataset.val)===profil.nb_personnes)p.classList.add('selected');
-  });
-  // Budget
-  document.querySelectorAll('.budget-pill').forEach(p=>{
-    const euro=p.querySelector('.budget-euro').textContent;
-    if(euro===profil.budget)p.classList.add('selected');
-  });
-  // Niveau
-  document.querySelectorAll('#niveauGrid .pill').forEach(p=>{
-    if(p.dataset.val===profil.niveau)p.classList.add('selected');
-  });
-  // Allergies
-  const al=profil.allergies||[];
-  document.querySelectorAll('.allergie-check').forEach(el=>{
-    if(al.includes(el.dataset.val))el.classList.add('on');
-  });
+  document.getElementById('profName').textContent=profil.prenom||'Mon Profil';
+  document.getElementById('profSub').textContent=`${profil.nb_personnes||2} pers. · ${profil.budget||'€€'} · ${profil.niveau||'Facile'}`;
+  document.querySelectorAll('.pill[data-v]').forEach(p=>{if(parseInt(p.dataset.v)===profil.nb_personnes||p.dataset.v===profil.nb_personnes.toString())p.classList.add('on');});
+  document.querySelectorAll('.budget-card').forEach(p=>{if(p.querySelector('.be').textContent===profil.budget)p.classList.add('on');});
+  document.querySelectorAll('.pill[data-v="Facile"],[data-v="Moyenne"],[data-v="Difficile"]').forEach(p=>{if(p.dataset.v===profil.niveau)p.classList.add('on');});
+  (profil.allergies||[]).forEach(a=>{document.querySelectorAll('.ac').forEach(el=>{if(el.dataset.v===a)el.classList.add('on');});});
 }
-
-function selConv(el,v){
-  document.querySelectorAll('#convivesGrid .pill').forEach(p=>p.classList.remove('selected'));
-  el.classList.add('selected');profil.nb_personnes=v;
-}
-function selBudget(el,v){
-  document.querySelectorAll('.budget-pill').forEach(p=>p.classList.remove('selected'));
-  el.classList.add('selected');profil.budget=v;
-}
-function selNiveau(el,v){
-  document.querySelectorAll('#niveauGrid .pill').forEach(p=>p.classList.remove('selected'));
-  el.classList.add('selected');profil.niveau=v;
-}
-function togAllergie(el,v){
-  el.classList.toggle('on');
-  if(el.classList.contains('on')){if(!profil.allergies.includes(v))profil.allergies.push(v);}
-  else{profil.allergies=profil.allergies.filter(a=>a!==v);}
-}
-
+function selConv(el,v){document.querySelectorAll('.pill[data-v]').forEach(p=>{if(['1','2','3','4','6','8'].includes(p.dataset.v))p.classList.remove('on');});el.classList.add('on');profil.nb_personnes=v;}
+function selBudget(el,v){document.querySelectorAll('.budget-card').forEach(p=>p.classList.remove('on'));el.classList.add('on');profil.budget=v;}
+function selNiveau(el,v){document.querySelectorAll('.pill[data-v="Facile"],[data-v="Moyenne"],[data-v="Difficile"]').forEach(p=>p.classList.remove('on'));el.classList.add('on');profil.niveau=v;}
+function togA(el,v){el.classList.toggle('on');if(el.classList.contains('on')){if(!profil.allergies.includes(v))profil.allergies.push(v);}else{profil.allergies=profil.allergies.filter(a=>a!==v);}}
 async function sauvegarder(){
   profil.prenom=document.getElementById('inputPrenom').value.trim()||profil.prenom;
   profil.updated_at=new Date().toISOString();
   localStorage.setItem('clara_profile',JSON.stringify(profil));
-  // Supabase
-  try{
-    const uid=localStorage.getItem('clara_user_id')||'anon';
-    await fetch(`${SUPABASE_URL}/rest/v1/profils`,{
-      method:'POST',
-      headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},
-      body:JSON.stringify({...profil,user_id:uid})
-    });
-  }catch(e){console.warn('Supabase:',e);}
-  document.getElementById('heroName').textContent=profil.prenom||'Mon Profil';
-  document.getElementById('heroSub').textContent=`${profil.nb_personnes||2} pers. · ${profil.budget||'€€'} · ${profil.niveau||'Facile'}`;
+  try{const uid=localStorage.getItem('clara_user_id')||'anon';await fetch(`${SUPABASE_URL}/rest/v1/profils`,{method:'POST',headers:{apikey:SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},body:JSON.stringify({...profil,user_id:uid})});}catch(e){}
+  document.getElementById('profName').textContent=profil.prenom||'Mon Profil';
+  document.getElementById('profSub').textContent=`${profil.nb_personnes||2} pers. · ${profil.budget||'€€'} · ${profil.niveau||'Facile'}`;
   showToast('Profil mis à jour ✓','success');
 }
-
-function reinitialiser(){
-  if(!confirm('Réinitialiser votre profil et recommencer depuis le début ?'))return;
-  localStorage.removeItem('clara_profile');
-  localStorage.removeItem('clara_user_id');
-  window.location.href='index.html';
-}
-
+function reinitialiser(){if(!confirm('Réinitialiser votre profil ?'))return;localStorage.removeItem('clara_profile');localStorage.removeItem('clara_user_id');window.location.href='index.html';}
 let tt;function showToast(m,t=''){const e=document.getElementById('toast');e.textContent=m;e.className='toast show'+(t?' '+t:'');clearTimeout(tt);tt=setTimeout(()=>e.className='toast',2800);}
 init();
 </script>
