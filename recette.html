@@ -3,13 +3,20 @@
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
   <title>Clara — Recette</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;type=content-script&amp;dmn=api.netlify.com&amp;url=https%3A%2F%2Fapi.netlify.com%2Fapi%2Fv1%2Fdeploys%2F69e74ec219d4250008911cdd%2Ffiles%2Frecette.html&amp;app=chrome.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-dnt"></script><script type="text/javascript" nonce="0536bcfa62f340dc9298ae9af8d" src="//local.adguard.org?ts=1776805013214&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#FFFFFF;--nav-h:68px;--radius:14px;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:calc(var(--nav-h)+24px);}
     .page{max-width:480px;margin:0 auto;padding:0 16px;}
     .hero{background:var(--teal);padding:52px 20px 28px;position:relative;overflow:hidden;}
+    .hero.has-image{padding:0;min-height:240px;display:flex;flex-direction:column;justify-content:flex-end;}
+    .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.65) 100%);}
+    .hero.has-image .hero-emoji{display:none;}
+    .hero.has-image .hero-titre{color:white;text-shadow:0 1px 4px rgba(0,0,0,.4);}
+    .hero.has-image .back-btn{background:rgba(0,0,0,.25);backdrop-filter:blur(4px);}
+    .hero.has-image .hero-content{position:relative;z-index:2;padding:20px 20px 28px;}
     .hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.07);}
     .back-btn{position:absolute;top:16px;left:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;}
     .hero-emoji{font-size:60px;display:block;margin-bottom:12px;position:relative;z-index:1;}
@@ -82,9 +89,13 @@
 </div>
 <div class="hero" id="heroSection">
   <button class="back-btn" onclick="history.back()">←</button>
+  <img class="hero-img" id="heroImg" src="" alt="" style="display:none;" onerror="this.style.display='none';document.getElementById('heroSection').classList.remove('has-image');document.getElementById('heroEmoji').style.display='block'"/>
+  <div class="hero-overlay" id="heroOverlay" style="display:none;"></div>
   <span class="hero-emoji" id="heroEmoji">🍽️</span>
-  <div class="hero-titre" id="heroTitre">…</div>
-  <div class="hero-badges" id="heroBadges"></div>
+  <div class="hero-content" id="heroContent">
+    <div class="hero-titre" id="heroTitre">…</div>
+    <div class="hero-badges" id="heroBadges"></div>
+  </div>
 </div>
 <div class="page">
   <div class="section" id="descSection" style="display:none">
@@ -146,6 +157,17 @@ function renderHero(){
   const s=t.saison||[];
   if(s.length&&!s.includes('Toutes'))b.push(s.filter(x=>!x.includes('Déjeuner')).join(' · ')||'');
   document.getElementById('heroBadges').innerHTML=b.filter(Boolean).map(x=>'<span class="hero-badge">'+x+'</span>').join('');
+  // Image hero si disponible
+  if(recette.url_image){
+    const img=document.getElementById('heroImg');
+    const overlay=document.getElementById('heroOverlay');
+    img.src=recette.url_image;
+    img.alt=recette.titre;
+    img.style.display='block';
+    overlay.style.display='block';
+    document.getElementById('heroSection').classList.add('has-image');
+    document.getElementById('heroEmoji').style.display='none';
+  }
 }
 function renderDesc(){
   if(!recette.description)return;
