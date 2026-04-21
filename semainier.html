@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>Clara [Ensemble] — Semainier</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
-    :root{--cream:#F7F3ED;--teal:#1D9E75;--teal-light:#E8F5F0;--teal-dark:#157A5A;--coral:#D85A30;--text:#2C2820;--text-muted:#8B7D72;--border:#E5DDD5;--white:#fff;--nav-h:68px;--radius:14px;}
+    :root {
+      --cream:#F7F3ED; --teal:#1D9E75; --teal-light:#E8F5F0; --teal-dark:#157A5A;
+      --coral:#D85A30; --coral-light:#FDF0EB; --text:#2C2820; --text-muted:#8B7D72;
+      --border:#E5DDD5; --white:#FFFFFF; --nav-h:68px; --radius:14px;
+    }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{height:100%;}
     body{min-height:100%;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);padding-bottom:calc(var(--nav-h)+16px);}
+    .bg-decor{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+    .bg-blob{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(29,158,117,0.06) 0%,transparent 70%);}
+    .bg-blob-1{width:360px;height:360px;top:-80px;right:-60px;}
+    .bg-blob-2{width:260px;height:260px;bottom:80px;left:-80px;background:radial-gradient(circle,rgba(216,90,48,0.05) 0%,transparent 70%);}
     .page{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 16px;}
     .header{display:flex;align-items:center;justify-content:space-between;padding:20px 0 14px;position:sticky;top:0;z-index:10;background:var(--cream);}
+    .header-left{display:flex;flex-direction:column;}
     .brand{font-family:'Lora',serif;font-size:17px;font-weight:600;color:var(--teal);}
     .week-label{font-size:12px;color:var(--text-muted);margin-top:2px;}
     .header-actions{display:flex;gap:8px;}
     .icon-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .2s;}
     .icon-btn:hover{border-color:var(--teal);background:var(--teal-light);}
     .saison-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-    .saison-badge{padding:6px 12px;border-radius:99px;background:var(--teal-light);border:1.5px solid rgba(29,158,117,.2);font-size:12px;font-weight:600;color:var(--teal);}
-    .profile-chip{padding:6px 12px;border-radius:99px;background:var(--white);border:1.5px solid var(--border);font-size:12px;color:var(--text-muted);}
+    .saison-badge{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;background:var(--teal-light);border:1.5px solid rgba(29,158,117,.2);font-size:12px;font-weight:600;color:var(--teal);}
+    .profile-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;background:var(--white);border:1.5px solid var(--border);font-size:12px;color:var(--text-muted);}
     .view-toggle{display:flex;background:var(--white);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;}
-    .toggle-btn{flex:1;padding:9px;text-align:center;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;background:transparent;border:none;font-family:'DM Sans',sans-serif;}
+    .toggle-btn{flex:1;padding:9px;text-align:center;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .2s;background:transparent;border:none;font-family:'DM Sans',sans-serif;}
     .toggle-btn.active{background:var(--teal);color:var(--white);}
     .days-nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:none;}
     .days-nav::-webkit-scrollbar{display:none;}
@@ -34,11 +45,11 @@
     .day-tab.active .day-num{color:var(--white);}
     .moment-section{margin-bottom:14px;}
     .moment-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;padding-left:4px;}
-    .recette-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 14px 14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden;animation:fadeUp .3s ease both;}
+    .recette-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 14px 14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;animation:fadeUp .3s ease both;}
     .recette-card:hover{border-color:var(--teal);}
     .recette-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);border-radius:99px 0 0 99px;opacity:0;transition:opacity .2s;}
     .recette-card:hover::before{opacity:1;}
-    .recette-emoji{font-size:30px;flex-shrink:0;line-height:1;}
+    .recette-emoji{font-size:32px;flex-shrink:0;line-height:1;}
     .recette-info{flex:1;min-width:0;}
     .recette-titre{font-weight:600;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px;}
     .recette-meta{display:flex;gap:8px;align-items:center;}
@@ -47,53 +58,59 @@
     .refresh-btn{width:32px;height:32px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;color:var(--text-muted);transition:all .2s;}
     .refresh-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-light);}
     .refresh-btn.spinning{animation:spin .5s linear;}
-    .empty-slot{border:1.5px dashed var(--border);border-radius:var(--radius);padding:18px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .2s;color:var(--text-muted);font-size:13px;background:transparent;}
+    .empty-slot{background:transparent;border:1.5px dashed var(--border);border-radius:var(--radius);padding:18px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .2s;color:var(--text-muted);font-size:13px;margin-bottom:0;}
     .empty-slot:hover{border-color:var(--teal);color:var(--teal);}
     .week-view{display:flex;flex-direction:column;gap:18px;margin-bottom:8px;}
     .week-day-header{font-family:'Lora',serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
     .week-day-header span{color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;}
     .cta-row{display:flex;gap:10px;margin-bottom:16px;}
-    .cta-btn{flex:1;padding:15px 12px;border-radius:var(--radius);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;transition:all .2s;}
+    .cta-btn{flex:1;padding:15px 12px;border-radius:var(--radius);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;transition:all .2s;text-align:center;}
     .cta-btn.primary{background:var(--teal);color:var(--white);}
     .cta-btn.primary:hover{background:var(--teal-dark);}
     .cta-btn.secondary{background:var(--white);color:var(--text);border:1.5px solid var(--border);}
     .cta-btn.secondary:hover{border-color:var(--teal);color:var(--teal);}
     .cta-btn:active{transform:scale(.98);}
     .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 8px;z-index:100;}
-    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 4px;cursor:pointer;border-radius:10px;transition:all .2s;border:none;background:none;}
+    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px;cursor:pointer;border-radius:10px;transition:all .2s;border:none;background:none;}
+    .nav-item:hover{background:var(--teal-light);}
     .nav-icon{font-size:20px;line-height:1;}
-    .nav-label{font-size:10px;font-weight:600;color:var(--text-muted);}
+    .nav-label{font-size:9px;font-weight:600;color:var(--text-muted);letter-spacing:.3px;}
     .nav-item.active .nav-label{color:var(--teal);}
-    .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:0;}
+    .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);margin-top:-1px;opacity:0;}
     .nav-item.active .nav-dot{opacity:1;}
     .loading-overlay{position:fixed;inset:0;z-index:200;background:rgba(247,243,237,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:0;pointer-events:none;transition:opacity .3s;}
     .loading-overlay.visible{opacity:1;pointer-events:all;}
     .loader{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;}
     .loader-text{font-family:'Lora',serif;font-size:14px;color:var(--text-muted);font-style:italic;}
-    .toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:var(--white);padding:10px 18px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;z-index:300;}
+    .toast{position:fixed;bottom:calc(var(--nav-h) + 12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:var(--white);padding:10px 18px;border-radius:99px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap;z-index:300;}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
     .toast.success{background:var(--teal);}
+    .toast.error{background:var(--coral);}
     @keyframes spin{to{transform:rotate(360deg);}}
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
   </style>
 </head>
 <body>
+<div class="bg-decor" aria-hidden="true">
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+</div>
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loader"></div>
   <div class="loader-text" id="loaderText">Clara prépare votre semaine…</div>
 </div>
 <div class="toast" id="toast"></div>
 <div class="page">
-  <div class="header">
-    <div>
+  <header class="header">
+    <div class="header-left">
       <div class="brand">Clara <span style="font-family:'DM Sans';font-weight:400;font-size:13px;color:var(--text-muted)">[Ensemble]</span></div>
-      <div class="week-label" id="weekLabel">…</div>
+      <div class="week-label" id="weekLabel">Semaine du …</div>
     </div>
     <div class="header-actions">
       <button class="icon-btn" title="Regénérer" onclick="regenererSemaine()">🎲</button>
       <button class="icon-btn" title="Profil" onclick="goTo('profil.html')">👤</button>
     </div>
-  </div>
+  </header>
   <div class="saison-bar">
     <div class="saison-badge" id="saisonBadge">🌸 Printemps</div>
     <div class="profile-chip" id="profileChip">👤 …</div>
@@ -111,8 +128,9 @@
 </div>
 <nav class="bottom-nav">
   <button class="nav-item" onclick="goTo('index.html')"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div><div class="nav-dot"></div></button>
-  <button class="nav-item active"><div class="nav-icon">📅</div><div class="nav-label">Semainier</div><div class="nav-dot"></div></button>
+  <button class="nav-item active" onclick="goTo('semainier.html')"><div class="nav-icon">📅</div><div class="nav-label">Semainier</div><div class="nav-dot"></div></button>
   <button class="nav-item" onclick="goTo('courses.html')"><div class="nav-icon">🛒</div><div class="nav-label">Courses</div><div class="nav-dot"></div></button>
+  <button class="nav-item" onclick="goTo('inventaire.html')"><div class="nav-icon">📦</div><div class="nav-label">Inventaire</div><div class="nav-dot"></div></button>
   <button class="nav-item" onclick="goTo('profil.html')"><div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-dot"></div></button>
 </nav>
 <script>
@@ -123,41 +141,58 @@ const MOMENTS=['Petit-Déjeuner','Déjeuner','Dîner'];
 const MI={'Petit-Déjeuner':'☀️','Déjeuner':'🌤️','Dîner':'🌙'};
 const SAISON_ICONS={Printemps:'🌸',Été:'☀️',Automne:'🍂',Hiver:'❄️'};
 
-// ── INDEX GLOBAL DES RECETTES (corrige le bug onclick) ──
-const recetteIndex = new Map(); // id → recette object
+let profil=null,recettes=[],planning={},currentJour=0,currentView='jour',saison='';
 
-let profil=null, recettes=[], planning={}, currentJour=0, currentView='jour', saison='';
-
-function goTo(u){window.location.href=u;}
-function getUserId(){return localStorage.getItem('clara_user_id')||'anon';}
-function getWeekId(){const n=new Date(),d=n.getDay(),l=new Date(n);l.setDate(n.getDate()-d+(d===0?-6:1));return l.toISOString().slice(0,10);}
-function getSaison(){const m=new Date().getMonth()+1;if(m>=3&&m<=5)return'Printemps';if(m>=6&&m<=8)return'Été';if(m>=9&&m<=11)return'Automne';return'Hiver';}
-function getWeekLabel(){const n=new Date(),d=n.getDay(),l=new Date(n);l.setDate(n.getDate()-d+(d===0?-6:1));const di=new Date(l);di.setDate(l.getDate()+6);const fmt=x=>x.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});return fmt(l)+' – '+fmt(di);}
-
-// ── CHARGEMENT PROFIL ──
-function loadProfil(){try{const r=localStorage.getItem('clara_profile');return r?JSON.parse(r):null;}catch(e){return null;}}
-
-// ── CHARGEMENT RECETTES ──
-async function chargerRecettes(){
-  try{
-    const r=await fetch('recettes.json');
-    if(r.ok){
-      recettes=await r.json();
-      recettes.forEach(r=>recetteIndex.set(String(r.id),r));
-      return;
-    }
-  }catch(e){console.warn('recettes.json non chargé:',e);}
-  // Fallback démo
-  recettes=DEMO;
-  recettes.forEach(r=>recetteIndex.set(String(r.id),r));
+async function init(){
+  showLoading(true,'Chargement…');
+  profil=loadProfil();
+  if(!profil){window.location.href='index.html';return;}
+  renderWeekLabel();
+  saison=getSaison();
+  document.getElementById('saisonBadge').textContent=`${SAISON_ICONS[saison]||'🌿'} ${saison}`;
+  document.getElementById('profileChip').textContent=`👤 ${profil.prenom||'Vous'} · ${profil.nb_personnes||2} pers.`;
+  showLoading(true,'Chargement des recettes…');
+  await chargerRecettes();
+  showLoading(true,'Génération de votre semaine…');
+  const plan=await chargerPlanningSupabase();
+  if(plan) planning=plan; else genererSemaine();
+  showLoading(false);
+  // Jour courant
+  const d=new Date().getDay();
+  currentJour=d===0?6:d-1;
+  renderDaysNav();
+  renderView();
 }
 
-// ── FILTRAGE ──
+function loadProfil(){try{const r=localStorage.getItem('clara_profile');return r?JSON.parse(r):null;}catch(e){return null;}}
+function getUserId(){return localStorage.getItem('clara_user_id')||'anon';}
+function getSaison(){const m=new Date().getMonth()+1;if(m>=3&&m<=5)return'Printemps';if(m>=6&&m<=8)return'Été';if(m>=9&&m<=11)return'Automne';return'Hiver';}
+
+function renderWeekLabel(){
+  const now=new Date(),d=now.getDay();
+  const diff=now.getDate()-d+(d===0?-6:1);
+  const lundi=new Date(now);lundi.setDate(diff);
+  const dim=new Date(lundi);dim.setDate(lundi.getDate()+6);
+  const fmt=x=>x.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});
+  document.getElementById('weekLabel').textContent=`${fmt(lundi)} – ${fmt(dim)}`;
+}
+function getWeekId(){
+  const now=new Date(),d=now.getDay();
+  const lundi=new Date(now);lundi.setDate(now.getDate()-d+(d===0?-6:1));
+  return lundi.toISOString().slice(0,10);
+}
+
+async function chargerRecettes(){
+  try{const r=await fetch('recettes.json');if(r.ok){recettes=await r.json();return;}}catch(e){}
+  recettes=DEMO;
+}
+
 function filtrer(moment,opts={}){
   return recettes.filter(r=>{
-    if(!(r.tags?.moments||[]).includes(moment))return false;
-    const nm={'Facile':1,'Moyenne':2,'Difficile':3,'Intermédiaire':2};
-    const pn=nm[profil.niveau]||3, rn=nm[r.tags?.difficulte]||1;
+    const mo=r.tags?.moments||[];
+    if(!mo.includes(moment))return false;
+    const nm={'Facile':1,'Moyenne':2,'Difficile':3};
+    const pn=nm[profil.niveau]||1,rn=nm[r.tags?.difficulte]||1;
     if(rn>pn)return false;
     if(!opts.saison){const s=r.tags?.saison||[];if(s.length&&!s.includes('Toutes')&&!s.includes(saison))return false;}
     if(!opts.budget&&profil.budget){const bm={'€':1,'€€':2,'€€€':3};if((bm[r.tags?.budget]||2)>(bm[profil.budget]||2))return false;}
@@ -165,24 +200,26 @@ function filtrer(moment,opts={}){
     return true;
   });
 }
-function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
 function piocher(moment,excl=[]){
+  const pick=arr=>arr[Math.floor(Math.random()*arr.length)];
   let c=filtrer(moment).filter(r=>!excl.includes(r.id));if(c.length)return pick(c);
   c=filtrer(moment,{saison:true}).filter(r=>!excl.includes(r.id));if(c.length)return pick(c);
   c=filtrer(moment,{saison:true,budget:true}).filter(r=>!excl.includes(r.id));if(c.length)return pick(c);
   c=filtrer(moment,{saison:true,budget:true,allergenes:true}).filter(r=>!excl.includes(r.id));if(c.length)return pick(c);
-  const all=recettes.filter(r=>(r.tags?.moments||[]).includes(moment));return all.length?pick(all):null;
+  const all=recettes.filter(r=>r.tags?.moments?.includes(moment));return all.length?pick(all):null;
 }
 
-// ── GÉNÉRATION ──
 function genererSemaine(){
   const used=[];planning={};
   for(const j of JOURS){planning[j]={};for(const m of MOMENTS){const r=piocher(m,used);if(r){planning[j][m]=r;used.push(r.id);}}}
 }
+
 function regenererSemaine(){
   showLoading(true,'Nouvelle semaine…');
-  setTimeout(()=>{genererSemaine();showLoading(false);renderView();showToast('Semaine régénérée ✨','success');},300);
+  setTimeout(()=>{genererSemaine();showLoading(false);renderView();showToast('Semaine régénérée ✨','success');},400);
 }
+
 function regenererSlot(jour,moment,btn){
   btn.classList.add('spinning');
   const excl=Object.values(planning).flatMap(j=>Object.values(j).map(r=>r?.id)).filter(Boolean);
@@ -192,12 +229,12 @@ function regenererSlot(jour,moment,btn){
   setTimeout(()=>{btn.classList.remove('spinning');renderView();},300);
 }
 
-// ── SUPABASE ──
 async function supaFetch(path,opts={}){
-  const r=await fetch(SUPABASE_URL+path,{...opts,headers:{apikey:SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',...(opts.headers||{})}});
+  const r=await fetch(SUPABASE_URL+path,{...opts,headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',...(opts.headers||{})}});
   if(!r.ok)throw new Error(await r.text());
   const t=await r.text();return t?JSON.parse(t):null;
 }
+
 async function chargerPlanningSupabase(){
   try{
     const uid=getUserId(),sem=getWeekId();
@@ -206,12 +243,13 @@ async function chargerPlanningSupabase(){
     const plan={};
     for(const row of data){
       if(!plan[row.jour])plan[row.jour]={};
-      const rec=recetteIndex.get(String(row.recette_id));
-      if(rec)plan[row.jour][row.moment]=rec;
+      const rec=recettes.find(r=>String(r.id)===String(row.recette_id));
+      plan[row.jour][row.moment]=rec||{id:row.recette_id,titre:row.recette_titre,ux:{emoji:row.recette_emoji||'🍽️'},metrics:{total_time:'?'},tags:{budget:'€€'}};
     }
     return Object.keys(plan).length?plan:null;
   }catch(e){return null;}
 }
+
 async function sauvegarderSemaine(){
   showLoading(true,'Sauvegarde…');
   const uid=getUserId(),sem=getWeekId();
@@ -219,7 +257,7 @@ async function sauvegarderSemaine(){
   for(const j of JOURS)for(const m of MOMENTS){const r=planning[j]?.[m];if(r)rows.push({user_id:uid,semaine:sem,jour:j,moment:m,recette_id:String(r.id),recette_titre:r.titre,recette_emoji:r.ux?.emoji||'🍽️'});}
   try{
     await supaFetch(`/rest/v1/planning?user_id=eq.${encodeURIComponent(uid)}&semaine=eq.${sem}`,{method:'DELETE'});
-    await supaFetch('/rest/v1/planning',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify(rows)});
+    await supaFetch('/rest/v1/planning',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(rows)});
     localStorage.setItem('clara_planning_'+sem,JSON.stringify(planning));
     showLoading(false);showToast('Semaine sauvegardée 💾','success');
   }catch(e){
@@ -228,19 +266,6 @@ async function sauvegarderSemaine(){
   }
 }
 
-// ── NAVIGATION RECETTE (CORRIGÉ) ──
-// On passe l'ID, on retrouve l'objet depuis recetteIndex — plus de JSON dans le onclick
-function ouvrirRecette(id){
-  const r=recetteIndex.get(String(id));
-  if(!r){showToast('Recette introuvable');return;}
-  try{
-    sessionStorage.setItem('clara_recette_courante',JSON.stringify(r));
-    sessionStorage.setItem('clara_nb_personnes',String(profil.nb_personnes||2));
-    window.location.href='recette.html';
-  }catch(e){showToast('Erreur navigation');}
-}
-
-// ── RENDU ──
 function renderDaysNav(){
   const now=new Date(),d=now.getDay(),ti=d===0?6:d-1;
   document.getElementById('daysNav').innerHTML=JOURS.map((j,i)=>{
@@ -252,7 +277,9 @@ function renderDaysNav(){
     </div>`;
   }).join('');
 }
+
 function selectJour(i){currentJour=i;renderDaysNav();if(currentView==='jour')renderVueJour();}
+
 function setView(v){
   currentView=v;
   document.getElementById('toggleJour').className='toggle-btn'+(v==='jour'?' active':'');
@@ -260,96 +287,80 @@ function setView(v){
   document.getElementById('daysNav').style.display=v==='jour'?'flex':'none';
   renderView();
 }
-function renderView(){currentView==='jour'?renderVueJour():renderVueSemaine();}
+
+function renderView(){if(currentView==='jour')renderVueJour();else renderVueSemaine();}
 
 function renderVueJour(){
   const j=JOURS[currentJour];
   document.getElementById('mainContent').innerHTML=MOMENTS.map(m=>`
     <div class="moment-section">
       <div class="moment-label">${MI[m]} ${m}</div>
-      ${planning[j]?.[m]?cardHtml(planning[j][m],j,m):emptyHtml(j,m)}
+      ${planning[j]?.[m]?card(planning[j][m],j,m):empty(j,m)}
     </div>`).join('');
 }
+
 function renderVueSemaine(){
   const now=new Date(),d=now.getDay(),ti=d===0?6:d-1;
   document.getElementById('mainContent').innerHTML='<div class="week-view">'+
     JOURS.map(j=>{
       const i=JOURS.indexOf(j),dt=new Date(now);dt.setDate(now.getDate()+(i-ti));
       const ds=dt.toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
-      return`<div><div class="week-day-header">${j} <span>${ds}</span></div>${MOMENTS.map(m=>planning[j]?.[m]?cardCompactHtml(planning[j][m],j,m):'').join('')}</div>`;
+      return`<div><div class="week-day-header">${j} <span>${ds}</span></div>${
+        MOMENTS.map(m=>planning[j]?.[m]?cardCompact(planning[j][m],j,m):'').join('')}</div>`;
     }).join('')+'</div>';
 }
 
-// Utilise l'ID dans onclick — plus de JSON embarqué
-function cardHtml(r,j,m){
+function card(r,j,m){
   const t=r.metrics?.total_time||'—',b=r.tags?.budget||'€€',e=r.ux?.emoji||'🍽️';
-  const id=hesc(String(r.id)),jj=hesc(j),mm=hesc(m);
-  return`<div class="recette-card" onclick="ouvrirRecette('${id}')">
+  return`<div class="recette-card" onclick="ouvrirRecette(${esc(r)})">
     <div class="recette-emoji">${e}</div>
     <div class="recette-info">
-      <div class="recette-titre">${hesc(r.titre)}</div>
+      <div class="recette-titre">${escHtml(r.titre)}</div>
       <div class="recette-meta"><span class="meta-badge">⏱ ${t} min</span><span class="meta-badge budget">${b}</span></div>
     </div>
-    <button class="refresh-btn" onclick="event.stopPropagation();regenererSlot('${jj}','${mm}',this)">↺</button>
+    <button class="refresh-btn" onclick="event.stopPropagation();regenererSlot('${escHtml(j)}','${escHtml(m)}',this)">↺</button>
   </div>`;
 }
-function cardCompactHtml(r,j,m){
+
+function cardCompact(r,j,m){
   const e=r.ux?.emoji||'🍽️',t=r.metrics?.total_time||'—';
-  const id=hesc(String(r.id)),jj=hesc(j),mm=hesc(m);
-  return`<div class="recette-card" style="margin-bottom:8px;animation:none" onclick="ouvrirRecette('${id}')">
+  return`<div class="recette-card" style="margin-bottom:8px;animation:none" onclick="ouvrirRecette(${esc(r)})">
     <div style="font-size:11px;color:var(--text-muted);width:24px;flex-shrink:0;text-align:center">${MI[m]}</div>
     <div class="recette-emoji" style="font-size:22px">${e}</div>
-    <div class="recette-info"><div class="recette-titre" style="font-size:13px">${hesc(r.titre)}</div>
+    <div class="recette-info"><div class="recette-titre" style="font-size:13px">${escHtml(r.titre)}</div>
     <div class="recette-meta"><span class="meta-badge">⏱ ${t} min</span></div></div>
-    <button class="refresh-btn" onclick="event.stopPropagation();regenererSlot('${jj}','${mm}',this)">↺</button>
+    <button class="refresh-btn" onclick="event.stopPropagation();regenererSlot('${escHtml(j)}','${escHtml(m)}',this)">↺</button>
   </div>`;
 }
-function emptyHtml(j,m){return`<div class="empty-slot" onclick="regenererSlot('${hesc(j)}','${hesc(m)}',this)"><span>＋</span><span>Ajouter une recette</span></div>`;}
-function hesc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-// ── UI HELPERS ──
+function empty(j,m){return`<div class="empty-slot" onclick="regenererSlot('${escHtml(j)}','${escHtml(m)}',this)"><span>＋</span><span>Ajouter une recette</span></div>`;}
+
+function ouvrirRecette(r){
+  try{sessionStorage.setItem('clara_recette_courante',JSON.stringify(r));sessionStorage.setItem('clara_nb_personnes',profil.nb_personnes||2);window.location.href='recette.html';}catch(e){}
+}
+
+function goTo(u){window.location.href=u;}
+function esc(r){return"'"+JSON.stringify(r).replace(/'/g,"\\'").replace(/"/g,'&quot;')+"'";}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function showLoading(v,t){const e=document.getElementById('loadingOverlay');e.classList.toggle('visible',v);if(t)document.getElementById('loaderText').textContent=t;}
 let tt;function showToast(m,t=''){const e=document.getElementById('toast');e.textContent=m;e.className='toast show'+(t?' '+t:'');clearTimeout(tt);tt=setTimeout(()=>e.className='toast',2800);}
 
-// ── INIT ──
-async function init(){
-  showLoading(true,'Chargement du profil…');
-  profil=loadProfil();
-  if(!profil){window.location.href='index.html';return;}
-  document.getElementById('weekLabel').textContent=getWeekLabel();
-  saison=getSaison();
-  document.getElementById('saisonBadge').textContent=(SAISON_ICONS[saison]||'🌿')+' '+saison;
-  document.getElementById('profileChip').textContent='👤 '+(profil.prenom||'Vous')+' · '+(profil.nb_personnes||2)+' pers.';
-  showLoading(true,'Chargement des recettes…');
-  await chargerRecettes();
-  showLoading(true,'Génération de la semaine…');
-  const planSupa=await chargerPlanningSupabase();
-  if(planSupa){planning=planSupa;}
-  else{
-    const sem=getWeekId();
-    const cached=localStorage.getItem('clara_planning_'+sem);
-    if(cached){try{planning=JSON.parse(cached);}catch(e){genererSemaine();}}
-    else{genererSemaine();}
-  }
-  showLoading(false);
-  const now=new Date(),d=now.getDay();
-  currentJour=d===0?6:d-1;
-  renderDaysNav();
-  renderView();
-}
-
-// ── DÉMO FALLBACK ──
 const DEMO=[
-  {id:'d1',titre:'Avocado toast aux œufs',description:'Un classique du brunch.',personnes:2,ingredients:[{nom:'Pain complet',quantite:2,unite:'tranches'},{nom:'Avocat',quantite:1,unite:''},{nom:'Œufs',quantite:2,unite:''}],etapes:[{instruction:'Toaster le pain.',timer_secondes:120},{instruction:'Écraser l\'avocat.',timer_secondes:0},{instruction:'Cuire les œufs.',timer_secondes:300}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Œufs','Gluten']},metrics:{prep_time:5,cook_time:8,total_time:13},ux:{emoji:'🥑',mood:'frais'}},
-  {id:'d2',titre:'Porridge aux fruits rouges',description:'Doux et réconfortant.',personnes:2,ingredients:[{nom:'Flocons d\'avoine',quantite:80,unite:'g'},{nom:'Lait',quantite:300,unite:'ml'},{nom:'Fruits rouges',quantite:100,unite:'g'}],etapes:[{instruction:'Chauffer le lait avec les flocons.',timer_secondes:300},{instruction:'Servir avec les fruits.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Gluten','Lactose']},metrics:{prep_time:2,cook_time:7,total_time:9},ux:{emoji:'🍓',mood:'doux'}},
-  {id:'d3',titre:'Salade niçoise',description:'Fraîche et complète.',personnes:2,ingredients:[{nom:'Thon',quantite:160,unite:'g'},{nom:'Tomates',quantite:200,unite:'g'},{nom:'Œufs durs',quantite:2,unite:''}],etapes:[{instruction:'Cuire les œufs 10 min.',timer_secondes:600},{instruction:'Assembler la salade.',timer_secondes:0}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Facile',moments:['Déjeuner'],allergenes:['Œufs','Poisson']},metrics:{prep_time:15,cook_time:10,total_time:25},ux:{emoji:'🥗',mood:'frais'}},
-  {id:'d4',titre:'Pasta al limone',description:'Simple et élégant.',personnes:2,ingredients:[{nom:'Spaghetti',quantite:200,unite:'g'},{nom:'Citron',quantite:1,unite:''},{nom:'Parmesan',quantite:60,unite:'g'}],etapes:[{instruction:'Cuire les pâtes.',timer_secondes:600},{instruction:'Mélanger avec citron et parmesan.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Déjeuner','Dîner'],allergenes:['Gluten','Lactose']},metrics:{prep_time:5,cook_time:12,total_time:17},ux:{emoji:'🍋',mood:'frais'}},
-  {id:'d5',titre:'Soupe de lentilles',description:'Veloutée et réconfortante.',personnes:4,ingredients:[{nom:'Lentilles corail',quantite:200,unite:'g'},{nom:'Tomates',quantite:400,unite:'g'},{nom:'Bouillon',quantite:1,unite:'L'}],etapes:[{instruction:'Faire revenir les légumes.',timer_secondes:180},{instruction:'Ajouter lentilles et bouillon, cuire 20 min.',timer_secondes:1200},{instruction:'Mixer.',timer_secondes:0}],tags:{saison:['Automne','Hiver'],budget:'€',difficulte:'Facile',moments:['Dîner'],allergenes:[]},metrics:{prep_time:10,cook_time:25,total_time:35},ux:{emoji:'🍲',mood:'réconfortant'}},
-  {id:'d6',titre:'Poulet rôti aux herbes',description:'Le classique du dimanche.',personnes:4,ingredients:[{nom:'Poulet entier',quantite:1.5,unite:'kg'},{nom:'Thym',quantite:4,unite:'branches'}],etapes:[{instruction:'Préchauffer le four à 200°C.',timer_secondes:0},{instruction:'Rôtir 1h15.',timer_secondes:4500}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Dîner'],allergenes:[]},metrics:{prep_time:10,cook_time:75,total_time:85},ux:{emoji:'🍗',mood:'convivial'}},
-  {id:'d7',titre:'Omelette aux herbes',description:'Légère et rapide.',personnes:2,ingredients:[{nom:'Œufs',quantite:4,unite:''},{nom:'Persil',quantite:1,unite:'bouquet'}],etapes:[{instruction:'Battre les œufs.',timer_secondes:0},{instruction:'Cuire 3 min.',timer_secondes:180}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner','Dîner'],allergenes:['Œufs']},metrics:{prep_time:3,cook_time:5,total_time:8},ux:{emoji:'🍳',mood:'léger'}},
-  {id:'d8',titre:'Smoothie bowl mangue',description:'Tropical et vitaminé.',personnes:2,ingredients:[{nom:'Mangue',quantite:1,unite:''},{nom:'Banane',quantite:2,unite:''},{nom:'Lait de coco',quantite:100,unite:'ml'}],etapes:[{instruction:'Mixer tous les ingrédients.',timer_secondes:0},{instruction:'Servir avec des toppings.',timer_secondes:0}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:[]},metrics:{prep_time:5,cook_time:0,total_time:5},ux:{emoji:'🥭',mood:'frais'}},
-  {id:'d9',titre:'Gratin dauphinois',description:'Fondant et doré.',personnes:4,ingredients:[{nom:'Pommes de terre',quantite:1,unite:'kg'},{nom:'Crème fraîche',quantite:400,unite:'ml'}],etapes:[{instruction:'Alterner pommes de terre et crème.',timer_secondes:0},{instruction:'Cuire 1h à 180°C.',timer_secondes:3600}],tags:{saison:['Automne','Hiver'],budget:'€',difficulte:'Facile',moments:['Dîner'],allergenes:['Lactose']},metrics:{prep_time:20,cook_time:60,total_time:80},ux:{emoji:'🥔',mood:'réconfortant'}},
-  {id:'d10',titre:'Buddha bowl',description:'Coloré et équilibré.',personnes:2,ingredients:[{nom:'Quinoa',quantite:150,unite:'g'},{nom:'Pois chiches',quantite:200,unite:'g'},{nom:'Avocat',quantite:1,unite:''}],etapes:[{instruction:'Cuire le quinoa 15 min.',timer_secondes:900},{instruction:'Assembler le bowl.',timer_secondes:0}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Facile',moments:['Déjeuner'],allergenes:[]},metrics:{prep_time:15,cook_time:20,total_time:35},ux:{emoji:'🥙',mood:'frais'}}
+  {id:'d1',titre:'Avocado toast aux œufs',description:'Un classique du brunch, rapide et nourrissant.',personnes:2,ingredients:[{nom:'Pain complet',quantite:2,unite:'tranches'},{nom:'Avocat',quantite:1,unite:''},{nom:'Œufs',quantite:2,unite:''},{nom:'Citron',quantite:0.5,unite:''}],etapes:[{instruction:'Toaster le pain.',timer_secondes:120},{instruction:'Écraser l\'avocat avec le jus de citron et saler.',timer_secondes:0},{instruction:'Cuire les œufs au plat dans une poêle.',timer_secondes:300},{instruction:'Assembler et servir aussitôt.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Œufs','Gluten']},metrics:{prep_time:5,cook_time:8,total_time:13},ux:{emoji:'🥑',mood:'frais'}},
+  {id:'d2',titre:'Porridge aux fruits rouges',description:'Doux et réconfortant, parfait le matin.',personnes:2,ingredients:[{nom:'Flocons d\'avoine',quantite:80,unite:'g'},{nom:'Lait',quantite:300,unite:'ml'},{nom:'Fruits rouges',quantite:100,unite:'g'},{nom:'Miel',quantite:1,unite:'c.à.s'}],etapes:[{instruction:'Chauffer le lait avec les flocons à feu moyen.',timer_secondes:300},{instruction:'Remuer jusqu\'à consistance crémeuse.',timer_secondes:120},{instruction:'Servir avec les fruits et le miel.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Gluten','Lactose']},metrics:{prep_time:2,cook_time:7,total_time:9},ux:{emoji:'🍓',mood:'doux'}},
+  {id:'d3',titre:'Pancakes moelleux',description:'Épais, dorés, irrésistibles.',personnes:4,ingredients:[{nom:'Farine',quantite:200,unite:'g'},{nom:'Lait',quantite:250,unite:'ml'},{nom:'Œufs',quantite:2,unite:''},{nom:'Beurre',quantite:30,unite:'g'},{nom:'Levure chimique',quantite:1,unite:'c.à.c'}],etapes:[{instruction:'Mélanger farine et levure.',timer_secondes:0},{instruction:'Incorporer lait, œufs et beurre fondu.',timer_secondes:0},{instruction:'Cuire chaque pancake 2 min par côté.',timer_secondes:240}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:['Gluten','Lactose','Œufs']},metrics:{prep_time:5,cook_time:20,total_time:25},ux:{emoji:'🥞',mood:'gourmand'}},
+  {id:'d4',titre:'Salade niçoise',description:'Fraîche et complète, un classique méditerranéen.',personnes:2,ingredients:[{nom:'Thon en boîte',quantite:160,unite:'g'},{nom:'Tomates cerise',quantite:200,unite:'g'},{nom:'Œufs durs',quantite:2,unite:''},{nom:'Haricots verts',quantite:150,unite:'g'},{nom:'Olives noires',quantite:50,unite:'g'}],etapes:[{instruction:'Cuire les haricots verts 5 min à la vapeur.',timer_secondes:300},{instruction:'Cuire les œufs durs 10 min.',timer_secondes:600},{instruction:'Disposer tous les éléments dans un saladier.',timer_secondes:0},{instruction:'Assaisonner à l\'huile d\'olive et sel.',timer_secondes:0}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Facile',moments:['Déjeuner'],allergenes:['Œufs','Poisson']},metrics:{prep_time:15,cook_time:10,total_time:25},ux:{emoji:'🥗',mood:'frais'}},
+  {id:'d5',titre:'Soupe de lentilles corail',description:'Veloutée, épicée, réconfortante.',personnes:4,ingredients:[{nom:'Lentilles corail',quantite:200,unite:'g'},{nom:'Tomates pelées',quantite:400,unite:'g'},{nom:'Oignon',quantite:1,unite:''},{nom:'Cumin',quantite:1,unite:'c.à.c'},{nom:'Bouillon légumes',quantite:1,unite:'L'}],etapes:[{instruction:'Faire revenir l\'oignon émincé.',timer_secondes:180},{instruction:'Ajouter épices, lentilles, tomates et bouillon.',timer_secondes:60},{instruction:'Cuire 20 min à petits bouillons.',timer_secondes:1200},{instruction:'Mixer et ajuster l\'assaisonnement.',timer_secondes:0}],tags:{saison:['Automne','Hiver'],budget:'€',difficulte:'Facile',moments:['Déjeuner','Dîner'],allergenes:[]},metrics:{prep_time:10,cook_time:25,total_time:35},ux:{emoji:'🍲',mood:'réconfortant'}},
+  {id:'d6',titre:'Pasta al limone',description:'Simple, vif, élégant — prêt en 15 minutes.',personnes:2,ingredients:[{nom:'Spaghetti',quantite:200,unite:'g'},{nom:'Citron',quantite:1,unite:''},{nom:'Parmesan',quantite:60,unite:'g'},{nom:'Crème fraîche',quantite:100,unite:'ml'},{nom:'Ail',quantite:1,unite:'gousse'}],etapes:[{instruction:'Cuire les pâtes al dente.',timer_secondes:600},{instruction:'Faire revenir l\'ail dans l\'huile d\'olive.',timer_secondes:120},{instruction:'Ajouter la crème, le zeste et le jus de citron.',timer_secondes:60},{instruction:'Mélanger avec les pâtes et le parmesan.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Déjeuner','Dîner'],allergenes:['Gluten','Lactose']},metrics:{prep_time:5,cook_time:12,total_time:17},ux:{emoji:'🍋',mood:'frais'}},
+  {id:'d7',titre:'Poulet rôti aux herbes',description:'Le grand classique du dimanche.',personnes:4,ingredients:[{nom:'Poulet entier',quantite:1.5,unite:'kg'},{nom:'Thym',quantite:4,unite:'branches'},{nom:'Romarin',quantite:2,unite:'branches'},{nom:'Ail',quantite:4,unite:'gousses'},{nom:'Beurre',quantite:50,unite:'g'}],etapes:[{instruction:'Préchauffer le four à 200°C.',timer_secondes:0},{instruction:'Badigeonner le poulet de beurre et herbes.',timer_secondes:0},{instruction:'Rôtir 1h15 en arrosant toutes les 20 min.',timer_secondes:4500},{instruction:'Laisser reposer 10 min avant de découper.',timer_secondes:600}],tags:{saison:['Toutes'],budget:'€€',difficulte:'Facile',moments:['Déjeuner','Dîner'],allergenes:['Lactose']},metrics:{prep_time:10,cook_time:75,total_time:85},ux:{emoji:'🍗',mood:'convivial'}},
+  {id:'d8',titre:'Risotto aux champignons',description:'Crémeux, umami, réconfortant.',personnes:2,ingredients:[{nom:'Riz arborio',quantite:180,unite:'g'},{nom:'Champignons',quantite:300,unite:'g'},{nom:'Bouillon légumes',quantite:750,unite:'ml'},{nom:'Parmesan',quantite:60,unite:'g'},{nom:'Oignon',quantite:1,unite:''}],etapes:[{instruction:'Faire revenir l\'oignon et les champignons.',timer_secondes:300},{instruction:'Ajouter le riz, nacrer 2 min.',timer_secondes:120},{instruction:'Ajouter le bouillon louche par louche.',timer_secondes:1080},{instruction:'Mantecatura avec le parmesan, repos 2 min.',timer_secondes:120}],tags:{saison:['Automne','Hiver'],budget:'€€',difficulte:'Moyenne',moments:['Dîner'],allergenes:['Lactose']},metrics:{prep_time:10,cook_time:25,total_time:35},ux:{emoji:'🍄',mood:'réconfortant'}},
+  {id:'d9',titre:'Buddha bowl printanier',description:'Coloré, équilibré, végétal.',personnes:2,ingredients:[{nom:'Quinoa',quantite:150,unite:'g'},{nom:'Pois chiches',quantite:200,unite:'g'},{nom:'Carottes',quantite:2,unite:''},{nom:'Avocat',quantite:1,unite:''},{nom:'Tahini',quantite:2,unite:'c.à.s'}],etapes:[{instruction:'Cuire le quinoa 15 min.',timer_secondes:900},{instruction:'Rôtir les pois chiches au four 20 min à 200°C.',timer_secondes:1200},{instruction:'Préparer la sauce tahini.',timer_secondes:0},{instruction:'Assembler le bowl.',timer_secondes:0}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Facile',moments:['Déjeuner'],allergenes:['Sésame']},metrics:{prep_time:15,cook_time:20,total_time:35},ux:{emoji:'🥙',mood:'frais'}},
+  {id:'d10',titre:'Omelette aux fines herbes',description:'Légère, rapide, toujours parfaite.',personnes:2,ingredients:[{nom:'Œufs',quantite:4,unite:''},{nom:'Persil',quantite:1,unite:'bouquet'},{nom:'Ciboulette',quantite:0.5,unite:'bouquet'},{nom:'Beurre',quantite:15,unite:'g'}],etapes:[{instruction:'Battre les œufs avec les herbes ciselées.',timer_secondes:0},{instruction:'Chauffer le beurre dans la poêle.',timer_secondes:60},{instruction:'Cuire l\'omelette 3 min sans trop remuer.',timer_secondes:180}],tags:{saison:['Toutes'],budget:'€',difficulte:'Facile',moments:['Petit-Déjeuner','Dîner'],allergenes:['Œufs','Lactose']},metrics:{prep_time:3,cook_time:5,total_time:8},ux:{emoji:'🍳',mood:'léger'}},
+  {id:'d11',titre:'Gratin dauphinois',description:'Fondant, doré, le gratin ultime.',personnes:4,ingredients:[{nom:'Pommes de terre',quantite:1,unite:'kg'},{nom:'Crème fraîche',quantite:400,unite:'ml'},{nom:'Lait',quantite:200,unite:'ml'},{nom:'Ail',quantite:2,unite:'gousses'},{nom:'Gruyère',quantite:100,unite:'g'}],etapes:[{instruction:'Préchauffer le four à 180°C.',timer_secondes:0},{instruction:'Frotter le plat à l\'ail, disposer les pommes de terre en couches.',timer_secondes:0},{instruction:'Verser le mélange crème-lait.',timer_secondes:0},{instruction:'Cuire 1h jusqu\'à coloration dorée.',timer_secondes:3600}],tags:{saison:['Automne','Hiver'],budget:'€',difficulte:'Facile',moments:['Dîner'],allergenes:['Lactose']},metrics:{prep_time:20,cook_time:60,total_time:80},ux:{emoji:'🥔',mood:'réconfortant'}},
+  {id:'d12',titre:'Smoothie bowl mangue banane',description:'Tropical, vitaminé, pour bien démarrer.',personnes:2,ingredients:[{nom:'Mangue',quantite:1,unite:''},{nom:'Banane',quantite:2,unite:''},{nom:'Lait de coco',quantite:100,unite:'ml'},{nom:'Granola',quantite:40,unite:'g'}],etapes:[{instruction:'Mixer mangue, banane et lait de coco.',timer_secondes:0},{instruction:'Verser dans un bol.',timer_secondes:0},{instruction:'Garnir de granola.',timer_secondes:0}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Facile',moments:['Petit-Déjeuner'],allergenes:[]},metrics:{prep_time:5,cook_time:0,total_time:5},ux:{emoji:'🥭',mood:'frais'}},
+  {id:'d13',titre:'Tartines au saumon fumé',description:'Élégant et rapide.',personnes:2,ingredients:[{nom:'Pain de seigle',quantite:4,unite:'tranches'},{nom:'Saumon fumé',quantite:120,unite:'g'},{nom:'Cream cheese',quantite:100,unite:'g'},{nom:'Câpres',quantite:1,unite:'c.à.s'},{nom:'Aneth',quantite:1,unite:'bouquet'}],etapes:[{instruction:'Tartiner le pain de cream cheese.',timer_secondes:0},{instruction:'Disposer le saumon fumé.',timer_secondes:0},{instruction:'Garnir de câpres et d\'aneth frais.',timer_secondes:0}],tags:{saison:['Toutes'],budget:'€€€',difficulte:'Facile',moments:['Petit-Déjeuner','Déjeuner'],allergenes:['Gluten','Lactose','Poisson']},metrics:{prep_time:5,cook_time:0,total_time:5},ux:{emoji:'🐟',mood:'frais'}},
+  {id:'d14',titre:'Velouté de potimarron',description:'Doux, orangé, parfait en automne.',personnes:4,ingredients:[{nom:'Potimarron',quantite:800,unite:'g'},{nom:'Oignon',quantite:1,unite:''},{nom:'Crème fraîche',quantite:100,unite:'ml'},{nom:'Bouillon légumes',quantite:700,unite:'ml'}],etapes:[{instruction:'Faire revenir l\'oignon.',timer_secondes:180},{instruction:'Ajouter le potimarron en cubes et le bouillon.',timer_secondes:0},{instruction:'Cuire 25 min.',timer_secondes:1500},{instruction:'Mixer avec la crème.',timer_secondes:0}],tags:{saison:['Automne'],budget:'€',difficulte:'Facile',moments:['Dîner'],allergenes:['Lactose']},metrics:{prep_time:15,cook_time:25,total_time:40},ux:{emoji:'🎃',mood:'réconfortant'}},
+  {id:'d15',titre:'Tarte aux légumes',description:'Dorée, garnie de légumes du moment.',personnes:4,ingredients:[{nom:'Pâte brisée',quantite:1,unite:''},{nom:'Courgettes',quantite:2,unite:''},{nom:'Tomates',quantite:3,unite:''},{nom:'Chèvre',quantite:150,unite:'g'},{nom:'Œufs',quantite:3,unite:''}],etapes:[{instruction:'Préchauffer le four à 180°C.',timer_secondes:0},{instruction:'Foncer le moule et précuire 10 min.',timer_secondes:600},{instruction:'Garnir de légumes et chèvre, ajouter les œufs battus.',timer_secondes:0},{instruction:'Cuire 30 min.',timer_secondes:1800}],tags:{saison:['Printemps','Été'],budget:'€€',difficulte:'Moyenne',moments:['Déjeuner','Dîner'],allergenes:['Gluten','Lactose','Œufs']},metrics:{prep_time:20,cook_time:40,total_time:60},ux:{emoji:'🥧',mood:'convivial'}}
 ];
 
 init();
